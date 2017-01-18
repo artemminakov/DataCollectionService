@@ -1,0 +1,69 @@
+@()
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Create/Edit Fields</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="index1.html">Fields</a></li>
+                <li><a href="index1.html">Responses
+                    <span class="badge">2</span> </a>
+                </li>
+            </ul>
+            <hr>
+            <label>Create/Edit Field</label>
+            <br>
+            <br>
+            <label class="control-label">Label*:</label>
+            <br>
+            <form class="form-horizontal" method="POST" action="@routes.CreateFieldController.addField()">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <input class="col-sm-4 form-control" id="input" type="text" value="" name="label"
+                        placeholder="Date of birth">
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <label><input type="checkbox" value="true" name="required"> Required</label>
+                </div>
+                <br>
+                <br>
+                <label class="control-label">Type*:</label>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <select class="form-control" id="sel1" name="type">
+                            <option>SINGLELINETEXT</option>
+                            <option>MULTILINETEXT</option>
+                            <option>RADIOBUTTON</option>
+                            <option>CHECKBOX</option>
+                            <option>COMBOBOX</option>
+                            <option>DATE</option>
+                            <option>SLIDER</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <label><input type="checkbox" value="true" name="active"> Is Active</label>
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" formmethod="post"
+                    formaction="@routes.CreateFieldController.addField()">
+                        <span class="glyphicon glyphicon-save-file"></span>Save</button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
+    </body>
+</html>

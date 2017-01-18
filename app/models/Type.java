@@ -1,0 +1,5 @@
+package models;
+
+public enum Type {
+    SINGLELINETEXT, MULTILINETEXT, RADIOBUTTON, CHECKBOX, COMBOBOX, DATE, SLIDER
+}
