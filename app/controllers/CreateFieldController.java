@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Field;
+import models.Type;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -8,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -23,7 +25,8 @@ public class CreateFieldController extends Controller {
     }
 
     public Result index() {
-        return ok(views.html.createField.render());
+        List<Type> typesList = Arrays.asList(Type.values());
+        return ok(views.html.createField.render(typesList));
     }
 
 

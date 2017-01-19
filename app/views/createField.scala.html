@@ -1,4 +1,4 @@
-@()
+@(typesList: List[Type])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +9,33 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#btn1").click(function(){
+                    $("p").append(" <b>Appended text</b>.");
+                });
+
+                $("#sel1").click(function(){
+                    $.get("@views.html.simple",
+                            function (data) {
+                                $("#appendToThis").append(data);
+                            });
+                    var value = $(this).val();
+//                    $("p").append("<p>AZAZAZAZAZAZAZAZAZAZZA</p>");
+//                    $("p").append(data);
+//                            $(this).children("p:first").html(data);
+                    alert(value);
+//                    var txt3 = document.
+//                    $('#content').load('simple.html');
+                    /*$("body").append();
+                     $("body").load('simple.html');*/
+                    /*$("#container").load("views/simple.html",function(){
+                     $(this).clone().appendTo("body").remove();
+                     });*/
+                });
+            });
+        </script>
     </head>
     <body>
 
@@ -25,11 +52,11 @@
             <br>
             <label class="control-label">Label*:</label>
             <br>
-            <form class="form-horizontal" method="POST" action="@routes.CreateFieldController.addField()">
+            <form class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-4">
                         <input class="col-sm-4 form-control" id="input" type="text" value="" name="label"
-                        placeholder="Date of birth">
+                        placeholder="Label name">
                     </div>
                     <div class="col-sm-2"></div>
                     <label><input type="checkbox" value="true" name="required"> Required</label>
@@ -41,13 +68,9 @@
                 <div class="form-group">
                     <div class="col-sm-4">
                         <select class="form-control" id="sel1" name="type">
-                            <option>SINGLELINETEXT</option>
-                            <option>MULTILINETEXT</option>
-                            <option>RADIOBUTTON</option>
-                            <option>CHECKBOX</option>
-                            <option>COMBOBOX</option>
-                            <option>DATE</option>
-                            <option>SLIDER</option>
+                        @for(types <- typesList) {
+                            <option>@types</option>
+                        }
                         </select>
                     </div>
                     <div class="col-sm-2"></div>
@@ -56,13 +79,14 @@
                 <br>
                 <br>
                 <div class="form-group">
-                    <button type="button" class="btn btn-default" formmethod="post"
+                    <button type="submit" class="btn btn-default" formmethod="post"
                     formaction="@routes.CreateFieldController.addField()">
                         <span class="glyphicon glyphicon-save-file"></span>Save</button>
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-default" id="btn1">
                         <span class="glyphicon glyphicon-remove"></span>Cancel</button>
                 </div>
-                <input type="submit" value="Submit"/>
+                <p id="appendToThis"></p>
+
             </form>
         </div>
     </body>
