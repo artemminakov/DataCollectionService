@@ -1,5 +1,7 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Field {
     private int fieldId;
 
     @Column
+    @Constraints.Required
     private String label;
 
     @Enumerated(EnumType.STRING)

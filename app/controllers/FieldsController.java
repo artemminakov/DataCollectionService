@@ -26,7 +26,10 @@ public class FieldsController extends Controller {
     public Result addField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();
         jpaApi.em().persist(field);
-        return redirect(routes.MainController.index());
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String options = requestData.get("options");
+        return ok("Hello " + options);
+//        return redirect(routes.MainController.index());
     }*/
 
     /*@Transactional(readOnly = true)

@@ -1,7 +1,10 @@
 package controllers;
 
 import models.Field;
+import models.Option;
 import models.Type;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -25,8 +28,9 @@ public class CreateFieldController extends Controller {
     }
 
     public Result index() {
+        Form<Field> fieldForm = formFactory.form(Field.class);
         List<Type> typesList = Arrays.asList(Type.values());
-        return ok(views.html.createField.render(typesList));
+        return ok(views.html.createField.render(fieldForm, typesList));
     }
 
 
@@ -34,12 +38,32 @@ public class CreateFieldController extends Controller {
     public Result addField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();
         jpaApi.em().persist(field);
-        return redirect(routes.CreateFieldController.index());
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String options = requestData.get("options");
+        String[] arrOfOptions = options.split("\\r?\\n");
+        for (String option: arrOfOptions){
+            jpaApi.em().persist(new Option(option, false));
+        }
+        return ok(options);
+//        return redirect(routes.MainController.index());
     }
+
+    /*@Transactional
+    public Result addField() {
+        Field field = formFactory.form(Field.class).bindFromRequest().get();
+        jpaApi.em().persist(field);
+        return redirect(routes.CreateFieldController.index());
+    }*/
 
     @Transactional(readOnly = true)
     public Result getFields() {
         List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
         return ok(toJson(fields));
+    }
+
+    @Transactional(readOnly = true)
+    public Result getOptions() {
+        List<Option> options = (List<Option>) jpaApi.em().createQuery("select o from Option o").getResultList();
+        return ok(toJson(options));
     }
 }

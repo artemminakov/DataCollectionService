@@ -23,6 +23,11 @@ public class Option {
         this.responseContent = responseContent;
     }
 
+    public Option(String content, boolean isSelected) {
+        this.content = content;
+        this.isSelected = isSelected;
+    }
+
     public Option() {
     }
 
