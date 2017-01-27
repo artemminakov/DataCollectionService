@@ -1,11 +1,14 @@
 package controllers;
 
+import models.Field;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class MainController extends Controller{
     private final FormFactory formFactory;
@@ -17,9 +20,10 @@ public class MainController extends Controller{
         this.jpaApi = jpaApi;
     }
 
+    @Transactional
     public Result index() {
-//        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
-        return ok(views.html.index.render());
+        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
+        return ok(views.html.index.render(fields));
     }
 
 

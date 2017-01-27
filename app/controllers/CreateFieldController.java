@@ -1,7 +1,6 @@
 package controllers;
 
 import models.Field;
-import models.Option;
 import models.Type;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -38,14 +37,14 @@ public class CreateFieldController extends Controller {
     public Result addField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();
         jpaApi.em().persist(field);
-        DynamicForm requestData = formFactory.form().bindFromRequest();
+        /*DynamicForm requestData = formFactory.form().bindFromRequest();
         String options = requestData.get("options");
         String[] arrOfOptions = options.split("\\r?\\n");
         for (String option: arrOfOptions){
             jpaApi.em().persist(new Option(option, false));
         }
-        return ok(options);
-//        return redirect(routes.MainController.index());
+        return ok(options);*/
+        return redirect(routes.CreateFieldController.getFields());
     }
 
     /*@Transactional
@@ -59,11 +58,5 @@ public class CreateFieldController extends Controller {
     public Result getFields() {
         List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
         return ok(toJson(fields));
-    }
-
-    @Transactional(readOnly = true)
-    public Result getOptions() {
-        List<Option> options = (List<Option>) jpaApi.em().createQuery("select o from Option o").getResultList();
-        return ok(toJson(options));
     }
 }

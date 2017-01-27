@@ -24,6 +24,9 @@ public class Field {
     @Column
     private boolean isActive;
 
+    @Column
+    private String options;
+
     public Field(String label, Type type, boolean isRequired, boolean isActive) {
         this.label = label;
         this.type = type;
@@ -74,6 +77,14 @@ public class Field {
         isActive = active;
     }
 
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
     @Override
     public String toString() {
         StringBuilder field = new StringBuilder();
@@ -81,7 +92,8 @@ public class Field {
                 .append(", label= '" + label + '\'')
                 .append(", type= " + type)
                 .append(", isRequired= " + isRequired)
-                .append(", isActive= " + isActive + '}');
+                .append(", isActive= " + isActive)
+                .append(", options= " + options + '}');
         return field.toString();
     }
 

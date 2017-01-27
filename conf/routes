@@ -14,7 +14,6 @@ GET     /fields                     controllers.FieldsController.index()
 GET     /createfield                controllers.CreateFieldController.index()
 POST    /createfield                controllers.CreateFieldController.addField()
 GET     /getfields                  controllers.CreateFieldController.getFields()
-GET     /getoptions                  controllers.CreateFieldController.getOptions()
 
 GET     /responses                  controllers.ResponsesController.index()
 
