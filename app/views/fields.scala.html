@@ -33,19 +33,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @for(field <- fieldsList) {
-                        <tr>
-                            <td>@field.getLabel</td>
-                            <td>@field.getType</td>
-                            <td><input type="checkbox" value="" @if(field.isRequired){checked} onclick="return false;"></td>
-                            <td><input type="checkbox" value="" @if(field.isActive){checked} onclick="return false;"></td>
-                            <td><a href="">edit</a></td>
-                            <td><a href="">delete</a></td>
-                        </tr>
-                    }
+                        @for(field <- fieldsList) {
+                            <tr>
+                                <td>@field.getLabel</td>
+                                <td>@field.getType</td>
+                                <td><input type="checkbox" value="" @if(field.isRequired){checked} onclick="return false;"></td>
+                                <td><input type="checkbox" value="" @if(field.isActive){checked} onclick="return false;"></td>
+                                <td><a href="">edit</a></td>
+                                <td id="@field.getLabel.replaceAll("\\s", "")"><a href="" onclick="return false;">delete</a></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </body>
     }
 }
+<script>
+        $(function(){
+            $("td").click(function(){
+                var rowId = $(this).attr('id');
+//                alert(rowId + " was deleted");
+                $('#' + rowId).parent().hide();
+            });
+        });
+</script>
