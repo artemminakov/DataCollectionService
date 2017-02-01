@@ -13,3 +13,6 @@ libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0"
 libraryDependencies += javaWs % "test"
 
 libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.5.Final"
+
+fork in run := true
+javaOptions in run += "-Dhttp.port=<9001>"

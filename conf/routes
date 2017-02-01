@@ -2,26 +2,30 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET     /login                      controllers.LoginController.login
+POST    /authenticate               controllers.LoginController.authenticate
+POST    /logout                     controllers.LoginController.logout
+
 # Home page
-GET     /                           controllers.MainController.index()
-POST    /                           controllers.MainController.addResponse()
-GET     /getresponsecontent         controllers.MainController.getResponseContent()
+GET     /                           controllers.MainController.index
+POST    /                           controllers.MainController.addResponse
+GET     /getresponsecontent         controllers.MainController.getResponseContent
 
-GET     /admin                      controllers.AdminsController.index()
-POST    /admin                      controllers.AdminsController.addAdmin()
-GET     /admins                     controllers.AdminsController.getAdmins()
+GET     /admin                      controllers.AdminsController.index
+POST    /admin                      controllers.AdminsController.addAdmin
+GET     /admins                     controllers.AdminsController.getAdmins
 
-GET     /fields                     controllers.FieldsController.index()
+GET     /fields                     controllers.FieldsController.index
 
-GET     /createfield                controllers.CreateFieldController.index()
-POST    /createfield                controllers.CreateFieldController.addField()
-GET     /getfields                  controllers.CreateFieldController.getFields()
+GET     /createfield                controllers.CreateFieldController.index
+POST    /createfield                controllers.CreateFieldController.addField
+GET     /getfields                  controllers.CreateFieldController.getFields
 
-GET     /fields                     controllers.FieldsController.index()
+GET     /fields                     controllers.FieldsController.index
 
-GET     /responses                  controllers.ResponsesController.index()
+GET     /responses                  controllers.ResponsesController.index
 
-GET     /success                    controllers.SuccessController.index()
+GET     /success                    controllers.SuccessController.index
 
 
 # Map static resources from the /public folder to the /assets URL path

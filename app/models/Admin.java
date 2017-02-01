@@ -1,5 +1,7 @@
 package models;
 
+import util.SimpleLoginValidator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -39,6 +41,10 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String validate() {
+        return SimpleLoginValidator.isValidLogin(login, password) ? null : "Invalid user or password";
     }
 
     @Override
