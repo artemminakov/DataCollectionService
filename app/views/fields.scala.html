@@ -1,63 +1,51 @@
-@()
+@(fieldsList: List[models.Field])
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Fields</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <ul class="list-inline">
-                <li><a href="index1.html">Fields</a></li>
-                <li><a href="index1.html">Responses
-                    <span class="badge">2</span></a></li>
-            </ul>
-            <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus"></span> Add Field
-            </button>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Type</th>
-                        <th>Required</th>
-                        <th>Is Active</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Full name</td>
-                        <td>Single line text</td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><a href="">edit</a></td>
-                        <td><a href="">delete</a></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td>Single line text</td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><a href="">edit</a></td>
-                        <td><a href="">delete</a></td>
-                    </tr>
-                    <tr>
-                        <td>Sex</td>
-                        <td>Radio button</td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><input type="checkbox" value=""></td>
-                        <td><a href="">edit</a></td>
-                        <td><a href="">delete</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
-</html>
+@main("Fields") {
+
+    @helper.form(action = routes.CreateFieldController.index()) {
+        <head>
+            <title>Fields</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        </head>
+        <body>
+            <div class="container">
+                <ul class="list-inline">
+                    <li><a href="/getfields">Fields</a></li>
+                    <li><a href="/responses">Responses
+                        <span class="badge">2</span></a></li>
+                </ul>
+                <button type="submit" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span> Add Field
+                </button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Is Active</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(field <- fieldsList) {
+                        <tr>
+                            <td>@field.getLabel</td>
+                            <td>@field.getType</td>
+                            <td><input type="checkbox" value="" @if(field.isRequired){checked} onclick="return false;"></td>
+                            <td><input type="checkbox" value="" @if(field.isActive){checked} onclick="return false;"></td>
+                            <td><a href="">edit</a></td>
+                            <td><a href="">delete</a></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </body>
+    }
+}

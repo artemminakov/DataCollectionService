@@ -1,6 +1,6 @@
 @(fieldForm: Form[models.Field], typesList: List[Type])
 
-@main("Form Example") {
+@main("Create field") {
 
     @helper.form(action = routes.CreateFieldController.addField()) {
         <head>
@@ -10,7 +10,6 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
             <script>
                     $(document).ready(function(){
                         $("#sel1").click(function(){
@@ -38,13 +37,13 @@
                                 case "SLIDER":
                                     $("#extraFields").append("<div class=\"col-sm-3\">" +
                                             "<input class=\"col-sm-3 form-control\" id=\"minValue\" " +
-                                            "type=\"text\" value=\"\" name=\"label\"placeholder=\"Min value\"></div>");
+                                            "type=\"text\" value=\"\" name=\"minvalsl\"placeholder=\"Min value\"></div>");
                                     $("#extraFields").append("<div class=\"col-sm-3\">" +
                                             "<input class=\"col-sm-3 form-control\" id=\"maxValue\" " +
-                                            "type=\"text\" value=\"\" name=\"label\"placeholder=\"Max value\"></div>");
+                                            "type=\"text\" value=\"\" name=\"maxvalsl\"placeholder=\"Max value\"></div>");
                                     $("#extraFields").append("<div class=\"col-sm-3\">" +
                                             "<input class=\"col-sm-3 form-control\" id=\"step\" " +
-                                            "type=\"text\" value=\"\" name=\"label\"placeholder=\"Step\"></div>");
+                                            "type=\"text\" value=\"\" name=\"stepvalsl\"placeholder=\"Step\"></div>");
                                     break;
                                 default:
                             }
@@ -56,8 +55,8 @@
 
             <div class="container">
                 <ul class="list-inline">
-                    <li><a href="index1.html">Fields</a></li>
-                    <li><a href="index1.html">Responses
+                    <li><a href="/getfields">Fields</a></li>
+                    <li><a href="/responses">Responses
                         <span class="badge">2</span> </a>
                     </li>
                 </ul>

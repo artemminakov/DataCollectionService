@@ -36,7 +36,17 @@ public class CreateFieldController extends Controller {
     @Transactional
     public Result addField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();
-        jpaApi.em().persist(field);
+        String options = "";
+        if (field.getType() == Type.SLIDER) {
+            DynamicForm requestData = formFactory.form().bindFromRequest();
+            options += requestData.get("minvalsl") + "\n";
+            options += requestData.get("maxvalsl") + "\n";
+            options += requestData.get("stepvalsl");
+            field.setOptions(options);
+        }
+        /*DynamicForm requestData = formFactory.form().bindFromRequest();
+        String options = requestData.get("required");
+        return ok(options);*/
         /*DynamicForm requestData = formFactory.form().bindFromRequest();
         String options = requestData.get("options");
         String[] arrOfOptions = options.split("\\r?\\n");
@@ -44,15 +54,9 @@ public class CreateFieldController extends Controller {
             jpaApi.em().persist(new Option(option, false));
         }
         return ok(options);*/
+        jpaApi.em().persist(field);
         return redirect(routes.CreateFieldController.getFields());
     }
-
-    /*@Transactional
-    public Result addField() {
-        Field field = formFactory.form(Field.class).bindFromRequest().get();
-        jpaApi.em().persist(field);
-        return redirect(routes.CreateFieldController.index());
-    }*/
 
     @Transactional(readOnly = true)
     public Result getFields() {

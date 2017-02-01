@@ -4,6 +4,8 @@
 
 # Home page
 GET     /                           controllers.MainController.index()
+POST    /                           controllers.MainController.addResponse()
+GET     /getresponsecontent         controllers.MainController.getResponseContent()
 
 GET     /admin                      controllers.AdminsController.index()
 POST    /admin                      controllers.AdminsController.addAdmin()
@@ -14,6 +16,8 @@ GET     /fields                     controllers.FieldsController.index()
 GET     /createfield                controllers.CreateFieldController.index()
 POST    /createfield                controllers.CreateFieldController.addField()
 GET     /getfields                  controllers.CreateFieldController.getFields()
+
+GET     /fields                     controllers.FieldsController.index()
 
 GET     /responses                  controllers.ResponsesController.index()
 
