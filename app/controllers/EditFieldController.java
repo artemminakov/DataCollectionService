@@ -33,8 +33,9 @@ public class EditFieldController extends Controller {
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result index(String fieldId) {
-        fieldForEdit = (Field) jpaApi.em().createQuery("select f from Field f where fieldId = " + fieldId).getSingleResult();
-//        return ok(fieldForEdit.toString());
+        fieldForEdit = (Field) jpaApi.em()
+                .createQuery("select f from Field f where fieldId = " + fieldId)
+                .getSingleResult();
         List<Type> typesList = Arrays.asList(Type.values());
         return ok(views.html.editField.render(typesList, fieldForEdit));
     }
@@ -50,7 +51,6 @@ public class EditFieldController extends Controller {
             options += requestData.get("stepvalsl");
             field.setOptions(options);
         }
-        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
 
         EntityManager em = jpaApi.em();
         Query query = em.createNativeQuery("UPDATE field SET " +

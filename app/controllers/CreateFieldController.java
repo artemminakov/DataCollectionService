@@ -54,7 +54,8 @@ public class CreateFieldController extends Controller {
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getFields() {
-        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
         return ok(toJson(fields));
     }
 }

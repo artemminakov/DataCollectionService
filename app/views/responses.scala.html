@@ -1,39 +1,34 @@
-@()
+@(responsesList: List[models.Response])
 
     @main("Responses") {
-    <body>
-        <div class="container">
-            <ul class="list-inline">
-                <li><a href="@routes.FieldsController.index()">Fields</a></li>
-                <li><a href="@routes.ResponsesController.index()">Responses<span class="badge">2</span></a></li>
-            </ul>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Full name</th>
-                        <th>Email</th>
-                        <th>Sex</th>
-                        <th>Date of birth</th>
-                        <th>Sample Combobox</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>johnDexample.com</td>
-                        <td>Male</td>
-                        <td>12 Jan 1984</td>
-                        <td>option 1</td>
-                    </tr>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>johnDexample.com</td>
-                        <td>Female</td>
-                        <td>23 Aug 1994</td>
-                        <td>N/A</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+        <body>
+            <div class="container">
+                <ul class="list-inline">
+                    <li><a href="@routes.FieldsController.index()">Fields</a></li>
+                    <li><a href="@routes.ResponsesController.index()">Responses<span class="badge">2</span></a></li>
+                </ul>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        @for(content <- responsesList.apply(0).getResponseContents) {
+                            <th>@content.getField.getLabel</th>
+                        }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(response <- responsesList) {
+                        <tr>
+                        @for(content <- response.getResponseContents) {
+                            @if(content.getContent != ""){
+                                <td>@content.getContent</td>
+                            } else {
+                                <td>N/A</td>
+                            }
+                        }
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </body>
     }

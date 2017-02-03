@@ -32,8 +32,7 @@
                                 <td><input type="checkbox" value="" @if(field.isRequired){checked} onclick="return false;"></td>
                                 <td><input type="checkbox" value="" @if(field.isActive){checked} onclick="return false;"></td>
                                 <td><a href="@routes.EditFieldController.index(field.getFieldId.toString)">edit</a></td>
-                                <td id="@field.getLabel.replaceAll("\\s", "")"><a href=""
-                                onclick="return false;">delete</a></td>
+                                <td id="@field.getFieldId"><a href="" onclick="return false;">delete</a></td>
                             </tr>
                         }
                     </tbody>
@@ -46,8 +45,12 @@
         $(function(){
             $("td").click(function(){
                 var rowId = $(this).attr('id');
-//                alert(rowId + " was deleted");
-                $('#' + rowId).parent().hide();
+                $.post("@routes.FieldsController.deleteField()",
+                        { id: rowId },
+                        function(data){
+                            alert(data);
+                            $('#' + rowId).parent().hide();
+                        });
             });
         });
 </script>

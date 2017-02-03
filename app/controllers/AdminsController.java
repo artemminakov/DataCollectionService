@@ -40,7 +40,8 @@ public class AdminsController extends Controller {
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getAdmins() {
-        List<Admin> admins = (List<Admin>) jpaApi.em().createQuery("select a from Admin a").getResultList();
+        List<Admin> admins = (List<Admin>) jpaApi.em()
+                .createQuery("select a from Admin a").getResultList();
         return ok(toJson(admins));
     }
 }

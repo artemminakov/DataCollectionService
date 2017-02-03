@@ -20,8 +20,16 @@ public class Response {
     public Response() {
     }
 
-    public int getresponseId() {
+    public int getResponseId() {
         return responseId;
+    }
+
+    public List<ResponseContent> getResponseContents() {
+        return responseContents;
+    }
+
+    public void setResponseContents(List<ResponseContent> responseContents) {
+        this.responseContents = responseContents;
     }
 
     public void setResponseId(int responseId) {

@@ -13,6 +13,9 @@ import play.mvc.Security;
 import security.Secured;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -29,16 +32,19 @@ public class MainController extends Controller {
 
     @Transactional
     public Result index() {
-        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
         return ok(views.html.index.render(fields));
     }
 
 
     @Transactional
     public Result addResponse() {
-        List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        String anwer = "";
+        List<ResponseContent> responseContents = new ArrayList<>();
+        Response response = new Response();
         String content = "";
         for (Field field : fields) {
             if (field.isActive()) {
@@ -47,23 +53,48 @@ public class MainController extends Controller {
                 switch (field.getType()) {
                     case SINGLELINETEXT:
                         content = requestData.get(field.getLabel());
+                        break;
+                    case MULTILINETEXT:
+                        content = requestData.get(field.getLabel());
+                        break;
                     case RADIOBUTTON:
                         if (field.getOptions() != null) {
-                            anwer += requestData.get("Male") + "\n";
                             for (String option : field.getOptions().split("\\r?\\n")) {
                                 if (requestData.get(option) == "true") {
                                     content += option + "\n";
-//                                    anwer += option;
                                 }
                             }
                         }
+                        break;
+                    case CHECKBOX:
+                        if (field.getOptions() != null) {
+                            for (String option : field.getOptions().split("\\r?\\n")) {
+                                if (requestData.get(option) != null) {
+                                    content += option + "\n";
+                                }
+                            }
+                        }
+                        break;
+                    case COMBOBOX:
+                        if (field.getOptions() != null) {
+                            for (String option : field.getOptions().split("\\r?\\n")) {
+                                content = option;
+                            }
+                        }
+                        break;
+                    case DATE:
+                        content = requestData.get(field.getLabel());
+                        break;
                 }
                 responseContent.setContent(content);
+                content = "";
+                responseContents.add(responseContent);
                 jpaApi.em().persist(responseContent);
             }
         }
-        return ok(anwer);
-//        return redirect(routes.MainController.index());
+        response.setResponseContents(responseContents);
+        jpaApi.em().persist(response);
+        return redirect(routes.MainController.index());
     }
 
     @Security.Authenticated(Secured.class)
@@ -72,6 +103,27 @@ public class MainController extends Controller {
         List<ResponseContent> responseContent = (List<ResponseContent>) jpaApi.em()
                 .createQuery("select r from ResponseContent r").getResultList();
         return ok(toJson(responseContent));
+    }
+
+    @Security.Authenticated(Secured.class)
+    @Transactional(readOnly = true)
+    public Result getResponseContents() {
+        Response response = (Response) jpaApi.em()
+                .createQuery("select r from Response r").getSingleResult();
+        return ok(toJson(response));
+    }
+
+    @Security.Authenticated(Secured.class)
+    @Transactional
+    public Result deleteResponses() {
+        EntityManager em = jpaApi.em();
+        Query query = em.createNativeQuery(
+                "DELETE FROM responseContent;");
+        query.executeUpdate();
+        query = em.createNativeQuery(
+                "DELETE FROM response;");
+        query.executeUpdate();
+        return ok("Delete responses");
     }
 
 }
