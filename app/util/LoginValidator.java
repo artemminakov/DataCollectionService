@@ -3,7 +3,7 @@ package util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleLoginValidator {
+public class LoginValidator {
 
     public static boolean isValidLogin(String login, String password) {
         Map<String, String> users = new HashMap<String, String>();

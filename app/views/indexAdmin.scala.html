@@ -1,7 +1,6 @@
 @()
 
-@main("Welcome to Play") {
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+@main("Add admin") {
 
     <form method="POST" action="@routes.AdminsController.addAdmin()">
         <input type="text" name="login"/>

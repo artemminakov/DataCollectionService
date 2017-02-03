@@ -8,9 +8,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/bootstrap-slider.min.js"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/css/bootstrap-slider.min.css">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
             <script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
             <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
@@ -175,6 +172,11 @@
                         <button type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-remove"></span>Reset</button>
                     </div>
+                    @helper.form(action = routes.LoginController.logout) {
+                        <p>
+                            <button class="btn btn-success" type="submit">Logout</button>
+                        </p>
+                    }
                 </form>
             </div>
             <script type="text/javascript">

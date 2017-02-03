@@ -1,6 +1,6 @@
 package models;
 
-import util.SimpleLoginValidator;
+import util.LoginValidator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,7 +44,7 @@ public class Admin {
     }
 
     public String validate() {
-        return SimpleLoginValidator.isValidLogin(login, password) ? null : "Invalid user or password";
+        return LoginValidator.isValidLogin(login, password) ? null : "Invalid user or password";
     }
 
     @Override

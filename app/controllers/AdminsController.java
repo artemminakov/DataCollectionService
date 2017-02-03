@@ -6,6 +6,8 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
+import security.Secured;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -22,11 +24,12 @@ public class AdminsController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    @Security.Authenticated(Secured.class)
     public Result index() {
         return ok(views.html.indexAdmin.render());
     }
 
-
+    @Security.Authenticated(Secured.class)
     @Transactional
     public Result addAdmin() {
         Admin admin = formFactory.form(Admin.class).bindFromRequest().get();
@@ -34,6 +37,7 @@ public class AdminsController extends Controller {
         return redirect(routes.MainController.index());
     }
 
+    @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getAdmins() {
         List<Admin> admins = (List<Admin>) jpaApi.em().createQuery("select a from Admin a").getResultList();

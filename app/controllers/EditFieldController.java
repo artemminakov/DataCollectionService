@@ -1,9 +1,9 @@
 package controllers;
 
+
 import models.Field;
 import models.Type;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -13,31 +13,34 @@ import play.mvc.Security;
 import security.Secured;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.List;
 
-import static play.libs.Json.toJson;
+public class EditFieldController extends Controller {
 
-public class CreateFieldController extends Controller {
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
+    private Field fieldForEdit;
 
     @Inject
-    public CreateFieldController(FormFactory formFactory, JPAApi jpaApi) {
+    public EditFieldController(FormFactory formFactory, JPAApi jpaApi) {
         this.formFactory = formFactory;
         this.jpaApi = jpaApi;
     }
 
     @Security.Authenticated(Secured.class)
-    public Result index() {
+    @Transactional
+    public Result index(String fieldId) {
+        fieldForEdit = (Field) jpaApi.em().createQuery("select f from Field f where fieldId = " + fieldId).getSingleResult();
+//        return ok(fieldForEdit.toString());
         List<Type> typesList = Arrays.asList(Type.values());
-        return ok(views.html.createField.render(typesList));
+        return ok(views.html.editField.render(typesList, fieldForEdit));
     }
 
-
-    @Security.Authenticated(Secured.class)
     @Transactional
-    public Result addField() {
+    public Result editField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();
         String options = "";
         if (field.getType() == Type.SLIDER) {
@@ -47,14 +50,17 @@ public class CreateFieldController extends Controller {
             options += requestData.get("stepvalsl");
             field.setOptions(options);
         }
-        jpaApi.em().persist(field);
-        return redirect(routes.CreateFieldController.getFields());
-    }
-
-    @Security.Authenticated(Secured.class)
-    @Transactional(readOnly = true)
-    public Result getFields() {
         List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
-        return ok(toJson(fields));
+
+        EntityManager em = jpaApi.em();
+        Query query = em.createNativeQuery("UPDATE field SET " +
+                "label = '" + field.getLabel() + "', " +
+                "type = '" + field.getType() + "', " +
+                "isRequired = " + field.isRequired() + ", " +
+                "isActive = " + field.isActive() + ", " +
+                "options = '" + field.getOptions() + "' " +
+                "WHERE fieldId = " + fieldForEdit.getFieldId() +";");
+        query.executeUpdate();
+        return redirect(routes.FieldsController.index());
     }
 }

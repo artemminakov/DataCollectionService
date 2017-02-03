@@ -3,19 +3,11 @@
 @main("Fields") {
 
     @helper.form(action = routes.CreateFieldController.index()) {
-        <head>
-            <title>Fields</title>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        </head>
         <body>
             <div class="container">
                 <ul class="list-inline">
-                    <li><a href="/getfields">Fields</a></li>
-                    <li><a href="/responses">Responses
+                    <li><a href="@routes.FieldsController.index()">Fields</a></li>
+                    <li><a href="@routes.ResponsesController.index()">Responses
                         <span class="badge">2</span></a></li>
                 </ul>
                 <button type="submit" class="btn btn-default">
@@ -39,8 +31,9 @@
                                 <td>@field.getType</td>
                                 <td><input type="checkbox" value="" @if(field.isRequired){checked} onclick="return false;"></td>
                                 <td><input type="checkbox" value="" @if(field.isActive){checked} onclick="return false;"></td>
-                                <td><a href="">edit</a></td>
-                                <td id="@field.getLabel.replaceAll("\\s", "")"><a href="" onclick="return false;">delete</a></td>
+                                <td><a href="@routes.EditFieldController.index(field.getFieldId.toString)">edit</a></td>
+                                <td id="@field.getLabel.replaceAll("\\s", "")"><a href=""
+                                onclick="return false;">delete</a></td>
                             </tr>
                         }
                     </tbody>

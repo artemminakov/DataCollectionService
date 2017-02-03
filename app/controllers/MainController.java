@@ -27,7 +27,6 @@ public class MainController extends Controller {
         this.jpaApi = jpaApi;
     }
 
-    @Security.Authenticated(Secured.class)
     @Transactional
     public Result index() {
         List<Field> fields = (List<Field>) jpaApi.em().createQuery("select f from Field f").getResultList();
@@ -67,6 +66,7 @@ public class MainController extends Controller {
 //        return redirect(routes.MainController.index());
     }
 
+    @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getResponseContent() {
         List<ResponseContent> responseContent = (List<ResponseContent>) jpaApi.em()

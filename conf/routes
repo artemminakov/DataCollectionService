@@ -21,6 +21,9 @@ GET     /createfield                controllers.CreateFieldController.index
 POST    /createfield                controllers.CreateFieldController.addField
 GET     /getfields                  controllers.CreateFieldController.getFields
 
+GET     /editfield                  controllers.EditFieldController.index(String)
+POST    /editfield                  controllers.EditFieldController.editField
+
 GET     /fields                     controllers.FieldsController.index
 
 GET     /responses                  controllers.ResponsesController.index
