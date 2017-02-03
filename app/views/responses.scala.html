@@ -1,4 +1,4 @@
-@(responsesList: List[models.Response])
+@(responsesList: List[models.Response], fieldsList: List[models.Field])
 
     @main("Responses") {
         <body>
@@ -10,8 +10,10 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                        @for(content <- responsesList.apply(0).getResponseContents) {
-                            <th>@content.getField.getLabel</th>
+                        @for(field <- fieldsList) {
+                            @if(field.isActive) {
+                                <th>@field.getLabel</th>
+                            }
                         }
                         </tr>
                     </thead>
@@ -19,7 +21,7 @@
                     @for(response <- responsesList) {
                         <tr>
                         @for(content <- response.getResponseContents) {
-                            @if(content.getContent != ""){
+                            @if(!content.getContent.isEmpty){
                                 <td>@content.getContent</td>
                             } else {
                                 <td>N/A</td>

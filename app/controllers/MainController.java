@@ -113,17 +113,4 @@ public class MainController extends Controller {
         return ok(toJson(response));
     }
 
-    @Security.Authenticated(Secured.class)
-    @Transactional
-    public Result deleteResponses() {
-        EntityManager em = jpaApi.em();
-        Query query = em.createNativeQuery(
-                "DELETE FROM responseContent;");
-        query.executeUpdate();
-        query = em.createNativeQuery(
-                "DELETE FROM response;");
-        query.executeUpdate();
-        return ok("Delete responses");
-    }
-
 }

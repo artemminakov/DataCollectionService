@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Field;
 import models.Response;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -27,7 +28,9 @@ public class ResponsesController extends Controller {
     public Result index() {
         List<Response> responses = (List<Response>) jpaApi.em()
                 .createQuery("select r from Response r").getResultList();
-        return ok(views.html.responses.render(responses));
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
+        return ok(views.html.responses.render(responses, fields));
     }
 
 }
