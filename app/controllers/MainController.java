@@ -13,8 +13,6 @@ import play.mvc.Security;
 import security.Secured;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +57,7 @@ public class MainController extends Controller {
                         break;
                     case RADIOBUTTON:
                         if (field.getOptions() != null) {
-                            for (String option : field.getOptions().split("\\r?\\n")) {
-                                if (requestData.get(option) == "true") {
-                                    content += option + "\n";
-                                }
-                            }
+                            content = requestData.get("option");
                         }
                         break;
                     case CHECKBOX:
@@ -94,7 +88,7 @@ public class MainController extends Controller {
         }
         response.setResponseContents(responseContents);
         jpaApi.em().persist(response);
-        return redirect(routes.MainController.index());
+        return redirect(routes.SuccessController.index());
     }
 
     @Security.Authenticated(Secured.class)

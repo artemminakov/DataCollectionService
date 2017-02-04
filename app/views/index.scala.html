@@ -1,316 +1,413 @@
 @(fieldsList: List[models.Field])(implicit session: play.mvc.Http.Session)
 
-@main("Data collection service") {
-    @helper.form(action = routes.MainController.addResponse()) {
-        <head>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/bootstrap-slider.min.js"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/css/bootstrap-slider.min.css">
-            <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-            <script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-            <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-            <script type="text/javascript">
-                    $('#ex1').slider({
-                        formatter: function(value) {
-                            return 'Current value: ' + value;
-                        }
-                    });
+    @main("Data collection service") {
+        @helper.form(action = routes.MainController.addResponse()) {
+            <head>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/bootstrap-slider.min.js"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/css/bootstrap-slider.min.css">
+                <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+                <script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+                <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+                <script type="text/javascript">
+                        $('#ex1').slider({
+                            formatter: function(value) {
+                                return 'Current value: ' + value;
+                            }
+                        });
 
 
-            </script>
-            <script type="text/stylus">
-            #ex1Slider.slider-selection {
-            background: #BABABA ;
-            }
-            </script>
-        </head>
+                </script>
+                <script type="text/stylus">
+                #ex1Slider.slider-selection {
+                background: #BABABA ;
+                }
+                </script>
+            </head>
 
-        <body>
-            <br>
-            <div class="form-group">
-                <div class="col-sm-10"></div>
-                <p>
-                    @if(session.isEmpty) {
-                        <button class="btn btn-success" type="submit" formaction="@routes.LoginController.login()">
-                            Login</button>
-                    }
-                    @if(!session.isEmpty) {
-                        <button class="btn" type="submit" formaction="@routes.LoginController.logout">Logout</button>
-                    }
-                </p>
-            </div>
-            <div class="container">
+            <body>
                 <br>
-                <form class="form-horizontal" id="myform">
-                    <div class="form-group" id="fields">
-                    @for(field <- fieldsList) {
-                        @if(field.isActive) {
-                            @field.getType match {
-                                case Type.SINGLELINETEXT => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <input class="form-control" id="input" name="@field.getLabel"
-                                            type="text" value="">
-                                        </div>
-                                    </div>
-                                    <br>
-                                }
-                                case Type.MULTILINETEXT => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <div class="form-group">
-                                        <textarea class="col-sm-4" rows="5" id="input" name="@field.getLabel"></textarea>
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                }
-                                case Type.RADIOBUTTON => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <form>
-                                    @for(option <- field.getOptions.split("\\r?\\n")) {
-                                        <div class="radio">
-                                            <label name="Male"><input type="radio" name="option">@option</label>
-                                        </div>
-                                    }
-                                    </form>
-                                    <br>
-                                }
-                                case Type.CHECKBOX => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <form>
-                                    @for(option <- field.getOptions.split("\\r?\\n")) {
-                                        <label><input type="checkbox" value="true" name="@option">@option</label>
-                                    }
-                                    </form>
-                                    <br>
-                                }
-                                case Type.COMBOBOX => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <select class="form-control" id="sel1">
-                                            @for(option <- field.getOptions.split("\\r?\\n")) {
-                                                <option>@option</option>
+                <div class="form-group">
+                    <div class="col-sm-10"></div>
+                    <p>
+                        @if(session.isEmpty) {
+                            <button class="btn btn-success" type="submit" formaction="@routes.LoginController.login()">
+                                Login</button>
+                        }
+                        @if(!session.isEmpty) {
+                            <button class="btn" type="submit" formaction="@routes.LoginController.logout">Logout</button>
+                        }
+                    </p>
+                </div>
+                <div class="container">
+                    <br>
+                    <form class="form-horizontal" id="myform">
+                        <div class="form-group" id="fields">
+                        @for(field <- fieldsList) {
+                            @if(field.isActive) {
+                                @field.getType match {
+                                    case Type.SINGLELINETEXT => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
                                             }
-                                            </select>
+                                        </label>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="input" name="@field.getLabel" type="text" value=""
+                                                @if(field.isRequired) {
+                                                    required
+                                                }
+                                                >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                }
-                                case Type.DATE => {
-                                    <br>
-                                    <label class="control-label">@field.getLabel
-                                        @if(field.isRequired) {
-                                            *:
-                                        } else {
-                                            :
-                                        }
-                                    </label>
-                                    <br>
-                                    <div class="form-group">
-                                        <div class="input-group date form_date col-sm-6" data-date=""
-                                        data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-                                        data-link-format="yyyy-mm-dd">
-                                            <input class="form-control" size="16" type="text" value="" readonly>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove">
-                                            </span>
-                                            </span>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">
-                                            </span>
-                                            </span>
-                                        </div>
-                                        <input type="hidden" id="dtp_input2" value=""/> <br/>
-                                    </div>
-                                    <br>
-                                }
-                                case Type.SLIDER => {
-                                    <br>
-                                    <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0"
-                                    data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
-                                    <br>
+                                        <br>
                                     }
+                                    case Type.MULTILINETEXT => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
+                                            }
+                                        </label>
+                                        <br>
+                                        <div class="form-group">
+                                            <textarea class="col-sm-4" rows="5" id="input" name="@field.getLabel"></textarea>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                    }
+                                    case Type.RADIOBUTTON => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
+                                            }
+                                        </label>
+                                        <br>
+                                        <form>
+                                        @for(option <- field.getOptions.split("\\r?\\n")) {
+                                            <div class="radio">
+                                                <label name="@option"><input type="radio" name="option" value="@option">@option</label>
+                                            </div>
+                                        }
+                                        </form>
+                                        <br>
+                                    }
+                                    case Type.CHECKBOX => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
+                                            }
+                                        </label>
+                                        <br>
+                                        <form>
+                                        @for(option <- field.getOptions.split("\\r?\\n")) {
+                                            <label><input type="checkbox" value="true" name="@option">@option</label>
+                                        }
+                                        </form>
+                                        <br>
+                                    }
+                                    case Type.COMBOBOX => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
+                                            }
+                                        </label>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="sel1">
+                                                @for(option <- field.getOptions.split("\\r?\\n")) {
+                                                    <option>@option</option>
+                                                }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    }
+                                    case Type.DATE => {
+                                        <br>
+                                        <label class="control-label">@field.getLabel
+                                            @if(field.isRequired) {
+                                                *:
+                                            } else {
+                                                :
+                                            }
+                                        </label>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="input-group date form_date col-sm-6" data-date=""
+                                            data-date-format="dd MM yyyy" data-link-field="dtp_input2"
+                                            data-link-format="yyyy-mm-dd">
+                                                <input class="form-control" size="16" type="text" value="" readonly>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove">
+                                            </span>
+                                                </span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                                </span>
+                                            </div>
+                                            <input type="hidden" id="dtp_input2" value=""/> <br/>
+                                        </div>
+                                        <br>
+                                    }
+                                    case Type.SLIDER => {
+                                        <br>
+                                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0"
+                                        data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+                                        <br>
+                                        }
 
 
+                                }
                             }
                         }
-                    }
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <p id="extraFields"></p>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-save-file"></span>Submit</button>
-                        <button type="button" class="btn btn-default" id="resetbutton">
-                            <span class="glyphicon glyphicon-remove"></span>Reset</button>
-                    </div>
-                </form>
-            </div>
-        </body>
-        <script type="text/javascript">
-                $('.form_datetime').datetimepicker({
-                    language:  'fr',
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 2,
-                    forceParse: 0,
-                    showMeridian: 1
-                });
-                $('.form_date').datetimepicker({
-                    language:  'ru',
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 2,
-                    minView: 2,
-                    forceParse: 0
-                });
-                $('.form_time').datetimepicker({
-                    language:  'ru',
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 1,
-                    minView: 0,
-                    maxView: 1,
-                    forceParse: 0
-                });
-        </script>
-        <script>
-                $(document).ready(function(){
-                    $("#resetbutton").click(function(){
-                        $('input').val('');
-                        $('textarea').val('');
-                        $("input:checkbox").prop('checked', false);
-                        $("input:radio").prop('checked', false);
-                        $('select option:first-child').attr("selected", "selected");
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <p id="extraFields"></p>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-save-file"></span>Submit</button>
+                            <button type="button" class="btn btn-default" id="resetbutton">
+                                <span class="glyphicon glyphicon-remove"></span>Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </body>
+            <script type="text/javascript">
+                    $('.form_datetime').datetimepicker({
+                        language:  'fr',
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        forceParse: 0,
+                        showMeridian: 1
                     });
-                });
-        </script>
-        <script>
-                $(function() {
-                    // console.log - just for info. You can delete it.
+                    $('.form_date').datetimepicker({
+                        language:  'ru',
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: 0
+                    });
+                    $('.form_time').datetimepicker({
+                        language:  'ru',
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 1,
+                        minView: 0,
+                        maxView: 1,
+                        forceParse: 0
+                    });
+            </script>
+            <script>
+                    $(document).ready(function(){
+                        $("#resetbutton").click(function(){
+                            $('input').val('');
+                            $('textarea').val('');
+                            $("input:checkbox").prop('checked', false);
+                            $("input:radio").prop('checked', false);
+                            $('select option:first-child').attr("selected", "selected");
+                        });
+                    });
+            </script>
+            <script>
+                    $(function() {
+                        // console.log - just for info. You can delete it.
 
-                    <!--  Creating client side for WebSockets connection  -->
+                        <!--  Creating client side for WebSockets connection  -->
 
-                    // create URL to connect to the server using WebSockets
-                    // ws - WebSockets protocol
-                    // window.location.host - the domain name of the web host
-                    // routes - action method in controller
-                    var serverURL = 'ws://' + window.location.host + '@routes.CreateFieldController.createFieldWebSocket().url';
+                        // create URL to connect to the server using WebSockets
+                        // ws - WebSockets protocol
+                        // window.location.host - the domain name of the web host
+                        // routes - action method in controller
+                        var serverURL = 'ws://' + window.location.host + '@routes.CreateFieldController.createFieldWebSocket().url';
 
-                    console.log("Server URL: " + serverURL);
-                    var socket;
+                        console.log("Server URL: " + serverURL);
+                        var socket;
 
-                    // some web-browser versions can have different constructors for web sockets
-                    // so we check it with if-else
-                    if (window.MozWebSocket) {
-                        socket = new MozWebSocket(serverURL);
-                    } else if (window.WebSocket) {
-                        socket = new WebSocket(serverURL);
-                    }
-
-                    // set a function that will be invoked when socket is open
-                    socket.onopen = function (event) {
-                        console.log("socket opened");
-                    }
-
-                    // set a function that will be invoked when the client receives
-                    // a message from the server
-                    socket.onmessage = function (event) {
-                        console.log("WebSocket message: " + event.data);
-
-                        // parse JsonNode with a message sent by the server
-                        var fieldFromJson = JSON.parse(event.data);
-
-                        // make smth with this information
-                        // 'text' is one of the properties of our message object
-                        if (fieldFromJson.hasOwnProperty("label")) {
-                            // finally add new row to the table
-                            addField(fieldFromJson);
-                        } else {
-                            // if we receive smth that we didn't expect
-                            console.error("Unknown message from socket: " + event.data);
+                        // some web-browser versions can have different constructors for web sockets
+                        // so we check it with if-else
+                        if (window.MozWebSocket) {
+                            socket = new MozWebSocket(serverURL);
+                        } else if (window.WebSocket) {
+                            socket = new WebSocket(serverURL);
                         }
-                    };
 
-                    // set a function that will be invoked when something is wrong with WebSockets
-                    socket.onerror = function (error) {
-                        console.error("WebSocket error: " + error);
-                    };
+                        // set a function that will be invoked when socket is open
+                        socket.onopen = function (event) {
+                            console.log("socket opened");
+                        }
 
-                    function addField(fieldFromJson) {
-                        var field = '';
-                        var fieldId = fieldFromJson.fieldId;
-                        var fieldLabel = fieldFromJson.label;
-                        var fieldType = fieldFromJson.type;
-                        var fieldRequired = fieldFromJson.required;
-                        var fieldActive = fieldFromJson.active;
+                        // set a function that will be invoked when the client receives
+                        // a message from the server
+                        socket.onmessage = function (event) {
+                            console.log("WebSocket message: " + event.data);
 
-                        if(fieldActive){
-                            field += '<br><label class="control-label">';
-                            field += fieldLabel;
-                            if(fieldRequired) {
-                                field += '*:';
+                            // parse JsonNode with a message sent by the server
+                            var fieldFromJson = JSON.parse(event.data);
+
+                            // make smth with this information
+                            // 'text' is one of the properties of our message object
+                            if (fieldFromJson.hasOwnProperty("label")) {
+                                // finally add new row to the table
+                                addField(fieldFromJson);
                             } else {
-                                field += ':';
+                                // if we receive smth that we didn't expect
+                                console.error("Unknown message from socket: " + event.data);
                             }
-                            field += '</label><br><div class="form-group"><div class="col-sm-6">';
-                            field += '<input class="form-control" id="input" name="';
-                            field += fieldLabel;
-                            field += '"type="text" value=""></div></div><br>';
-                        }
-                        $('#extraFields').append(field);
-                    };
-                });
-        </script>
+                        };
+
+                        // set a function that will be invoked when something is wrong with WebSockets
+                        socket.onerror = function (error) {
+                            console.error("WebSocket error: " + error);
+                        };
+
+                        function addField(fieldFromJson) {
+                            var htmlBuffer = [];
+                            var field = '';
+                            var fieldId = fieldFromJson.fieldId;
+                            var fieldLabel = fieldFromJson.label;
+                            var fieldType = fieldFromJson.type;
+                            var fieldRequired = fieldFromJson.required;
+                            var fieldActive = fieldFromJson.active;
+                            var fieldOptions = fieldFromJson.options;
+                            if(fieldActive){
+                                switch (fieldType) {
+                                    case "SINGLELINETEXT":
+                                        field += '<br><label class="control-label">';
+                                        field += fieldLabel;
+                                        if(fieldRequired) {
+                                            field += '*:';
+                                        } else {
+                                            field += ':';
+                                        }
+                                        field += '</label><br><div class="form-group"><div class="col-sm-6">';
+                                        field += '<input class="form-control" id="input" name="';
+                                        field += fieldLabel;
+                                        field += '"type="text" value=""></div></div><br>';
+                                        break;
+                                    case "MULTILINETEXT":
+                                        field += '<br><label class="control-label">';
+                                        field += fieldLabel;
+                                        if(fieldRequired) {
+                                            field += '*:';
+                                        } else {
+                                            field += ':';
+                                        }
+                                        field += '</label><br><div class="form-group">';
+                                        field += '<textarea class="col-sm-4" rows="5" id="input" name="';
+                                        field += fieldLabel;
+                                        field += '"></textarea></div><br><br><br><br><br>';
+                                        break;
+                                    case "RADIOBUTTON":
+                                        htmlBuffer.push('<br><label class="control-label">' + fieldLabel);
+                                        if(fieldRequired) {
+                                            htmlBuffer.push('*:');
+                                        } else {
+                                            htmlBuffer.push(':');
+                                        }
+                                        htmlBuffer.push('</label><br><form>');
+                                        var options = fieldOptions.split("\r");
+                                        for (i = 0 ; i < options.length ; i++){
+                                            htmlBuffer.push('<div class="radio">');
+                                            htmlBuffer.push('<label name="' + options[i] + '">');
+                                            htmlBuffer.push('<input type="radio" name="option" value="' + options[i] + '">');
+                                            htmlBuffer.push(options[i]);
+                                            htmlBuffer.push('</label></div>');
+                                        }
+                                        htmlBuffer.push('</form><br>');
+                                        field = htmlBuffer.join('\n');
+                                        break;
+                                    case "CHECKBOX":
+                                        htmlBuffer.push('<br><label class="control-label">' + fieldLabel);
+                                        if(fieldRequired) {
+                                            htmlBuffer.push('*:');
+                                        } else {
+                                            htmlBuffer.push(':');
+                                        }
+                                        htmlBuffer.push('</label><br><form>');
+                                        var options = fieldOptions.split("\r");
+                                        for (i = 0 ; i < options.length ; i++){
+                                            htmlBuffer.push('<label>');
+                                            htmlBuffer.push('<input type="checkbox" value="true" name="' + options[i] + '">');
+                                            htmlBuffer.push(options[i]);
+                                            htmlBuffer.push('</label>');
+                                        }
+                                        htmlBuffer.push('</form>');
+                                        htmlBuffer.push('<br>');
+                                        field = htmlBuffer.join('\n');
+                                        break;
+                                    case "COMBOBOX":
+                                        htmlBuffer.push('<br><label class="control-label">' + fieldLabel);
+                                        if(fieldRequired) {
+                                            htmlBuffer.push('*:');
+                                        } else {
+                                            htmlBuffer.push(':');
+                                        }
+                                        htmlBuffer.push('</label><br><div class="form-group">');
+                                        htmlBuffer.push('<div class="col-sm-6"><select class="form-control" id="sel1">');
+                                        var options = fieldOptions.split("\r");
+                                        for (i = 0 ; i < options.length ; i++){
+                                            htmlBuffer.push('<option>' + options[i] + '</option>');
+                                        }
+                                        htmlBuffer.push('</select></div></div>');
+                                        htmlBuffer.push('<br>');
+                                        field = htmlBuffer.join('\n');
+                                        break;
+                                    case "DATE":
+                                        htmlBuffer.push('<br><label class="control-label">' + fieldLabel);
+                                        if(fieldRequired) {
+                                            htmlBuffer.push('*:');
+                                        } else {
+                                            htmlBuffer.push(':');
+                                        }
+                                        htmlBuffer.push('</label><br><div class="form-group">');
+                                        htmlBuffer.push('<div class="input-group date form_date col-sm-6" data-date=""' +
+                                        'data-date-format="dd MM yyyy" data-link-field="dtp_input2"' +
+                                        'data-link-format="yyyy-mm-dd">');
+                                        htmlBuffer.push('<input class="form-control" size="16" type="text" value="" readonly>');
+                                        htmlBuffer.push('<span class="input-group-addon"><span class="glyphicon glyphicon-remove">');
+                                        htmlBuffer.push('</span></span>');
+                                        htmlBuffer.push('<span class="input-group-addon"><span class="glyphicon glyphicon-calendar">');
+                                        htmlBuffer.push('</span></span></div>');
+                                        htmlBuffer.push('<input type="hidden" id="dtp_input2" value=""/> <br/>');
+                                        htmlBuffer.push('</div>');
+                                        htmlBuffer.push('<br>');
+                                        field = htmlBuffer.join('\n');
+                                        break;
+                                }
+                            }
+                            $('#extraFields').append(field);
+                        };
+                    });
+            </script>
+        }
     }
-}
