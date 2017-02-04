@@ -24,7 +24,7 @@ public class LoginController extends Controller {
 
     public Result logout() {
         session().clear();
-        return redirect(routes.LoginController.login());
+        return redirect(routes.MainController.index());
     }
 
     public Result authenticate() {

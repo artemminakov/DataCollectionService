@@ -1,7 +1,15 @@
 @(responsesList: List[models.Response], fieldsList: List[models.Field])
 
     @main("Responses") {
+        @helper.form(action = routes.LoginController.logout) {
         <body>
+            <br>
+            <div class="form-group">
+                <div class="col-sm-10"></div>
+                <p>
+                    <button class="btn" type="submit">Logout</button>
+                </p>
+            </div>
             <div class="container">
                 <ul class="list-inline">
                     <li><a href="@routes.FieldsController.index()">Fields</a></li>
@@ -21,8 +29,12 @@
                     @for(response <- responsesList) {
                         <tr>
                         @for(content <- response.getResponseContents) {
-                            @if(!content.getContent.isEmpty){
-                                <td>@content.getContent</td>
+                            @if(content.getContent != null) {
+                                @if(!content.getContent.isEmpty) {
+                                    <td>@content.getContent</td>
+                                } else {
+                                    <td>N/A</td>
+                                }
                             } else {
                                 <td>N/A</td>
                             }
@@ -33,4 +45,5 @@
                 </table>
             </div>
         </body>
+        }
     }

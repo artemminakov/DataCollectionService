@@ -49,16 +49,22 @@
             </script>
         </head>
         <body>
-
+            <br>
+            <div class="form-group">
+                <div class="col-sm-10"></div>
+                <p>
+                    <button class="btn" type="submit" formaction="@routes.LoginController.logout">Logout</button>
+                </p>
+            </div>
             <div class="container">
                 <ul class="list-inline">
-                    <li><a href="/getfields">Fields</a></li>
-                    <li><a href="/responses">Responses
+                    <li><a href="@routes.FieldsController.index()">Fields</a></li>
+                    <li><a href="@routes.ResponsesController.index()">Responses
                         <span class="badge">2</span> </a>
                     </li>
                 </ul>
                 <hr>
-                <label>Create/Edit Field</label>
+                <label>Create Field</label>
                 <br>
                 <br>
                 <label class="control-label">Label*:</label>

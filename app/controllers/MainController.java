@@ -34,7 +34,7 @@ public class MainController extends Controller {
     public Result index() {
         List<Field> fields = (List<Field>) jpaApi.em()
                 .createQuery("select f from Field f").getResultList();
-        return ok(views.html.index.render(fields));
+        return ok(views.html.index.render(fields, session()));
     }
 
 
