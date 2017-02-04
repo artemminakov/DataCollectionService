@@ -11,10 +11,10 @@ Application is designed to collect data from users.
 7. Bootstrap, HTML, CSS, JavaScript/JQuery 
 
 ## How to use ##
-##For unauthorized users##
+For unauthorized users
 1. Responses collecting page. It gives possibility to submit response after filling in all active fields created by admin on page domainname.com/createfield. Optional fields can be left empty. Resetting form will clean out all entered data.
 
-##For authorized users##
+For authorized users
 
 2. Create/edit field page. Here admin is able to create new fields with definite number of properties. All properties are required. After saving new field user will be redirected to page domainname.com/fields. Page is available on path domainname.com/createfield.
 
@@ -23,7 +23,7 @@ Application is designed to collect data from users.
 4. Responses page. All the responses completed by users are collected here. They appear in this list automatically after submitting. Columns on this page correspond to each field created on page domainname.com/createfield. Page is available on path domainname.com/responses.
 
 ## Development ##
-##IntelliJ IDEA##
+IntelliJ IDEA
 Open build.sbt file in your IDE using File -> Open.
 
 ## Not implemented ##
