@@ -177,6 +177,11 @@
                         }
                     }
                     </div>
+                    <br>
+                    <div class="form-group">
+                        <p id="extraFields"></p>
+                    </div>
+                    <br>
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">
                             <span class="glyphicon glyphicon-save-file"></span>Submit</button>
@@ -228,6 +233,83 @@
                         $("input:radio").prop('checked', false);
                         $('select option:first-child').attr("selected", "selected");
                     });
+                });
+        </script>
+        <script>
+                $(function() {
+                    // console.log - just for info. You can delete it.
+
+                    <!--  Creating client side for WebSockets connection  -->
+
+                    // create URL to connect to the server using WebSockets
+                    // ws - WebSockets protocol
+                    // window.location.host - the domain name of the web host
+                    // routes - action method in controller
+                    var serverURL = 'ws://' + window.location.host + '@routes.CreateFieldController.createFieldWebSocket().url';
+
+                    console.log("Server URL: " + serverURL);
+                    var socket;
+
+                    // some web-browser versions can have different constructors for web sockets
+                    // so we check it with if-else
+                    if (window.MozWebSocket) {
+                        socket = new MozWebSocket(serverURL);
+                    } else if (window.WebSocket) {
+                        socket = new WebSocket(serverURL);
+                    }
+
+                    // set a function that will be invoked when socket is open
+                    socket.onopen = function (event) {
+                        console.log("socket opened");
+                    }
+
+                    // set a function that will be invoked when the client receives
+                    // a message from the server
+                    socket.onmessage = function (event) {
+                        console.log("WebSocket message: " + event.data);
+
+                        // parse JsonNode with a message sent by the server
+                        var fieldFromJson = JSON.parse(event.data);
+
+                        // make smth with this information
+                        // 'text' is one of the properties of our message object
+                        if (fieldFromJson.hasOwnProperty("label")) {
+                            // finally add new row to the table
+                            addField(fieldFromJson);
+                        } else {
+                            // if we receive smth that we didn't expect
+                            console.error("Unknown message from socket: " + event.data);
+                        }
+                    };
+
+                    // set a function that will be invoked when something is wrong with WebSockets
+                    socket.onerror = function (error) {
+                        console.error("WebSocket error: " + error);
+                    };
+
+                    function addField(fieldFromJson) {
+                        var field = '';
+                        var fieldId = fieldFromJson.fieldId;
+                        var fieldLabel = fieldFromJson.label;
+                        var fieldType = fieldFromJson.type;
+                        var fieldRequired = fieldFromJson.required;
+                        var fieldActive = fieldFromJson.active;
+
+                        if(fieldActive){
+                            field += '<br><label class="control-label">';
+                            field += fieldLabel;
+                            if(fieldRequired) {
+                                field += '*:';
+                            } else {
+                                field += ':';
+                            }
+                            field += '</label><br><div class="form-group"><div class="col-sm-6">';
+                            field += '<input class="form-control" id="input" name="';
+                            field += fieldLabel;
+                            field += '"type="text" value=""></div></div><br>';
+                        }
+                        $('#extraFields').append(field);
+                    };
                 });
         </script>
     }
