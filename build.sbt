@@ -14,5 +14,4 @@ libraryDependencies += javaWs % "test"
 
 libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.5.Final"
 
-fork in run := true
-javaOptions in run += "-Dhttp.port=<9001>"
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1200-jdbc41"

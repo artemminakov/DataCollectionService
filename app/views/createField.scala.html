@@ -1,205 +1,219 @@
 @(typesList: List[Type])
 
-    @main("Create field") {
-            <head>
-                <title>Create/Edit Fields</title>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <script>
-                        $(document).ready(function(){
-                            $("#sel1").click(function(){
-                                $("#extraFields").empty();
-                                var value = $(this).val();
-                                switch(value) {
-                                    case "RADIOBUTTON":
-                                        $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
-                                                "<div class=\"form-group\">");
-                                        $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\"" +
-                                                "name=\"options\"></textarea></div>");
-                                        break;
-                                    case "CHECKBOX":
-                                        $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
-                                                "<div class=\"form-group\">");
-                                        $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\"" +
-                                                "name=\"options\"></textarea></div>");
-                                        break;
-                                    case "COMBOBOX":
-                                        $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
-                                                "<div class=\"form-group\">");
-                                        $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\" " +
-                                                "name=\"options\"></textarea></div>");
-                                        break;
-                                    case "SLIDER":
-                                        $("#extraFields").append("<div class=\"col-sm-3\">" +
-                                                "<input class=\"col-sm-3 form-control\" id=\"minValue\" " +
-                                                "type=\"text\" value=\"\" name=\"minvalsl\"placeholder=\"Min value\"></div>");
-                                        $("#extraFields").append("<div class=\"col-sm-3\">" +
-                                                "<input class=\"col-sm-3 form-control\" id=\"maxValue\" " +
-                                                "type=\"text\" value=\"\" name=\"maxvalsl\"placeholder=\"Max value\"></div>");
-                                        $("#extraFields").append("<div class=\"col-sm-3\">" +
-                                                "<input class=\"col-sm-3 form-control\" id=\"step\" " +
-                                                "type=\"text\" value=\"\" name=\"stepvalsl\"placeholder=\"Step\"></div>");
-                                        break;
-                                    default:
-                                }
-                            });
-                        });
-                </script>
-            </head>
-            <body>
-                <br>
-                <div class="form-group">
-                    <div class="col-sm-10"></div>
-                    <p>
-                        <button class="btn" type="submit" formaction="@routes.LoginController.logout">Logout</button>
-                    </p>
-                </div>
-                <div class="container">
-                    <ul class="list-inline">
-                        <li><a href="@routes.FieldsController.index()">Fields
-                            <span class="badge" id="fieldsspan">2</span> </a></li>
-                        <li><a href="@routes.ResponsesController.index()">Responses
-                            <span class="badge">2</span> </a>
-                        </li>
-                    </ul>
-                    <hr>
-                    <label>Create Field</label>
-                    <br>
-                    <br>
-                    <label class="control-label">Label*:</label>
-                    <br>
-                    <form class="form-horizontal" id="field_form">
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <input class="col-sm-4 form-control" id="input" type="text" value="" name="label"
-                                placeholder="Label name">
-                            </div>
-                            <div class="col-sm-2"></div>
-                            <label><input type="checkbox" value="true" name="required"> Required</label>
-                        </div>
-                        <br>
-                        <br>
-                        <label class="control-label">Type*:</label>
-                        <br>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <select class="form-control" id="sel1" name="type">
-                                @for(types <- typesList) {
-                                    <option>@types</option>
-                                }
-                                </select>
-                            </div>
-                            <div class="col-sm-2"></div>
-                            <label><input type="checkbox" value="true" name="active"> Is Active</label>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="form-group">
-                            <p id="extraFields"></p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-default" id="submitbtn">
-                                <span class="glyphicon glyphicon-save-file"></span>Save</button>
-                            <button type="submit" class="btn btn-default" id="btn1" formaction="@routes.FieldsController.index()">
-                                <span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                        </div>
-
-                    </form>
-                </div>
-            </body>
+@main("Create field") {
+    <head>
+        <title>Create/Edit Fields</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script>
-                $(function() {
-                    // console.log - just for info. You can delete it.
-
-                    <!--  Creating client side for WebSockets connection  -->
-
-                    // create URL to connect to the server using WebSockets
-                    // ws - WebSockets protocol
-                    // window.location.host - the domain name of the web host
-                    // routes - action method in controller
-                    var serverURL = 'ws://' + window.location.host + '@routes.CreateFieldController.createFieldWebSocket().url';
-
-                    console.log("Server URL: " + serverURL);
-                    var socket;
-
-                    // some web-browser versions can have different constructors for web sockets
-                    // so we check it with if-else
-                    if (window.MozWebSocket) {
-                        socket = new MozWebSocket(serverURL);
-                    } else if (window.WebSocket) {
-                        socket = new WebSocket(serverURL);
-                    }
-
-                    // set a function that will be invoked when socket is open
-                    socket.onopen = function (event) {
-                        console.log("socket opened");
-                    }
-
-                    // set a function that will be invoked when the client receives
-                    // a message from the server
-                    socket.onmessage = function (event) {
-                        console.log("WebSocket message: " + event.data);
-
-                        // parse JsonNode with a message sent by the server
-                        var fieldFromJson = JSON.parse(event.data);
-
-                        // make smth with this information
-                        // 'text' is one of the properties of our message object
-                        if (fieldFromJson.hasOwnProperty("label")) {
-                            // finally add new row to the table
-                            console.log("OK");;
-                        } else {
-                            // if we receive smth that we didn't expect
-                            console.error("Unknown message from socket: " + event.data);
+                $(document).ready(function(){
+                    $("#sel1").click(function(){
+                        $("#extraFields").empty();
+                        var value = $(this).val();
+                        switch(value) {
+                            case "RADIOBUTTON":
+                                $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
+                                        "<div class=\"form-group\">");
+                                $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\"" +
+                                        "name=\"options\"></textarea></div>");
+                                break;
+                            case "CHECKBOX":
+                                $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
+                                        "<div class=\"form-group\">");
+                                $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\"" +
+                                        "name=\"options\"></textarea></div>");
+                                break;
+                            case "COMBOBOX":
+                                $("#extraFields").append("<label class=\"control-label\">Options*:</label>" +
+                                        "<div class=\"form-group\">");
+                                $("#extraFields").append("<textarea class=\"col-sm-4\" rows=\"5\" id=\"comment\" " +
+                                        "name=\"options\"></textarea></div>");
+                                break;
+                            case "SLIDER":
+                                $("#extraFields").append("<div class=\"col-sm-3\">" +
+                                        "<input class=\"col-sm-3 form-control\" id=\"minValue\" " +
+                                        "type=\"text\" value=\"\" name=\"minvalsl\"placeholder=\"Min value\"></div>");
+                                $("#extraFields").append("<div class=\"col-sm-3\">" +
+                                        "<input class=\"col-sm-3 form-control\" id=\"maxValue\" " +
+                                        "type=\"text\" value=\"\" name=\"maxvalsl\"placeholder=\"Max value\"></div>");
+                                $("#extraFields").append("<div class=\"col-sm-3\">" +
+                                        "<input class=\"col-sm-3 form-control\" id=\"step\" " +
+                                        "type=\"text\" value=\"\" name=\"stepvalsl\"placeholder=\"Step\"></div>");
+                                break;
+                            default:
                         }
-                    };
-
-                    // set a function that will be invoked when something is wrong with WebSockets
-                    socket.onerror = function (error) {
-                        console.error("WebSocket error: " + error);
-                    };
-
-                    $('#field_form').submit(function(event) {
-                        // disable submitting form with submit button
-                        event.preventDefault();
-
-                        console.log('submitting message using ajax');
-
-                        // get form data
-                        var formData = new FormData($('#field_form')[0]);
-
-                        console.log(formData);
-                        // create an AJAX-request
-                        $.ajax({
-                            method: 'POST',
-                            url: '@routes.CreateFieldController.addField()',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            success: function (message_text) {
-                                console.log('message text received from the server: ' + message_text);
-                                console.log('json text: ' + JSON.stringify(message_text));
-                                // !!! send information about adding new message to the server throw the web socket
-                                socket.send(JSON.stringify(message_text));
-                            },
-                            error: function (message_text) {
-                                console.log('something is wrong...');
-                                console.log(message_text);
-                            }
-                        });
-                        cleanForm();
-
                     });
                 });
-                function cleanForm() {
+        </script>
+    </head>
+
+    <body>
+        <br>
+        <form method="post">
+            <div class="form-group">
+                <div class="col-sm-10"></div>
+                <p>
+                    <button class="btn" type="submit" formaction="@routes.LoginController.logout">Logout</button>
+                </p>
+            </div>
+        </form>
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="@routes.FieldsController.index()">Fields
+                    <span class="badge" id="fieldsspan">2</span> </a></li>
+                <li><a href="@routes.ResponsesController.index()">Responses
+                    <span class="badge">2</span> </a>
+                </li>
+            </ul>
+            <hr>
+            <label>Create Field</label>
+            <br>
+            <br>
+            <label class="control-label">Label*:</label>
+            <br>
+            <form class="form-horizontal" id="field_form">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <input class="col-sm-4 form-control" id="input" type="text" value="" name="label"
+                        placeholder="Label name">
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <label><input type="checkbox" value="true" name="required"> Required</label>
+                </div>
+                <br>
+                <br>
+                <label class="control-label">Type*:</label>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <select class="form-control" id="sel1" name="type">
+                        @for(types <- typesList) {
+                            <option>@types</option>
+                        }
+                        </select>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <label><input type="checkbox" value="true" name="active"> Is Active</label>
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                    <p id="extraFields"></p>
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-default" id="submitbtn">
+                        <span class="glyphicon glyphicon-save-file"></span>Save</button>
+                    <button type="submit" class="btn btn-default" id="resetbutton">
+                        <span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </body>
+    <script>
+            $(document).ready(function(){
+                $("#resetbutton").click(function(){
                     $('input').val('');
                     $('textarea').val('');
                     $("input:checkbox").prop('checked', false);
-                    $("input:checkbox").prop('value', true);
+                    $("input:radio").prop('checked', false);
                     $('select option:first-child').attr("selected", "selected");
-                    $("#extraFields").empty();
+                });
+            });
+    </script>
+    <script>
+            $(function() {
+                // console.log - just for info. You can delete it.
+
+                <!--  Creating client side for WebSockets connection  -->
+
+                // create URL to connect to the server using WebSockets
+                // ws - WebSockets protocol
+                // window.location.host - the domain name of the web host
+                // routes - action method in controller
+                var serverURL = 'ws://' + window.location.host + '@routes.CreateFieldController.createFieldWebSocket().url';
+
+                console.log("Server URL: " + serverURL);
+                var socket;
+
+                // some web-browser versions can have different constructors for web sockets
+                // so we check it with if-else
+                if (window.MozWebSocket) {
+                    socket = new MozWebSocket(serverURL);
+                } else if (window.WebSocket) {
+                    socket = new WebSocket(serverURL);
                 }
-        </script>
-    }
+
+                // set a function that will be invoked when socket is open
+                socket.onopen = function (event) {
+                    console.log("socket opened");
+                }
+
+                // set a function that will be invoked when the client receives
+                // a message from the server
+                socket.onmessage = function (event) {
+                    console.log("WebSocket message: " + event.data);
+
+                    // parse JsonNode with a message sent by the server
+                    var fieldFromJson = JSON.parse(event.data);
+
+                    // make smth with this information
+                    // 'text' is one of the properties of our message object
+                    if (fieldFromJson.hasOwnProperty("label")) {
+                        // finally add new row to the table
+                        console.log("OK");;
+                    } else {
+                        // if we receive smth that we didn't expect
+                        console.error("Unknown message from socket: " + event.data);
+                    }
+                };
+
+                // set a function that will be invoked when something is wrong with WebSockets
+                socket.onerror = function (error) {
+                    console.error("WebSocket error: " + error);
+                };
+
+                $('#field_form').submit(function(event) {
+                    // disable submitting form with submit button
+                    event.preventDefault();
+
+                    console.log('submitting message using ajax');
+
+                    // get form data
+                    var formData = new FormData($('#field_form')[0]);
+
+                    console.log(formData);
+                    // create an AJAX-request
+                    $.ajax({
+                        method: 'POST',
+                        url: '@routes.CreateFieldController.addField()',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (message_text) {
+                            console.log('message text received from the server: ' + message_text);
+                            console.log('json text: ' + JSON.stringify(message_text));
+                            // !!! send information about adding new message to the server throw the web socket
+                            socket.send(JSON.stringify(message_text));
+                        },
+                        error: function (message_text) {
+                            console.log('something is wrong...');
+                            console.log(message_text);
+                        }
+                    });
+                    cleanForm();
+
+                });
+            });
+            function cleanForm() {
+                $('input').val('');
+                $('textarea').val('');
+                $("input:checkbox").prop('checked', false);
+                $("input:checkbox").prop('value', true);
+                $('select option:first-child').attr("selected", "selected");
+                $("#extraFields").empty();
+            }
+    </script>
+}

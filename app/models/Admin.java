@@ -1,13 +1,11 @@
 package models;
 
-import util.LoginValidator;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Admin {
+public class Admin{
 
     @Id
     private String login;
@@ -15,16 +13,16 @@ public class Admin {
     @Column
     private String password;
 
-    public Admin(String login, String password) {
-        this.login = login;
-        this.password = password;
+    public Admin() {
     }
 
     public Admin(String login) {
         this.login = login;
     }
 
-    public Admin() {
+    public Admin(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public String getLogin() {
@@ -41,10 +39,6 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String validate() {
-        return LoginValidator.isValidLogin(login, password) ? null : "Invalid user or password";
     }
 
     @Override
