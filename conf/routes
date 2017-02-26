@@ -25,7 +25,7 @@ POST    /createfield                controllers.CreateFieldController.addField
 GET     /getfields                  controllers.CreateFieldController.getFields
 GET     /createFieldWebSocket       controllers.CreateFieldController.createFieldWebSocket
 
-GET     /editfield                  controllers.EditFieldController.index(String)
+GET     /editfield/:id              controllers.EditFieldController.index(id: String)
 POST    /editfield                  controllers.EditFieldController.editField
 
 GET     /responses                  controllers.ResponsesController.index

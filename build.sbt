@@ -8,6 +8,8 @@ scalaVersion := "2.11.8"
 
 libraryDependencies += javaJpa
 
+libraryDependencies += evolutions
+
 libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0"
 
 libraryDependencies += javaWs % "test"

@@ -71,9 +71,7 @@ public class MainController extends Controller {
                         break;
                     case COMBOBOX:
                         if (field.getOptions() != null) {
-                            for (String option : field.getOptions().split("\\r?\\n")) {
-                                content = option;
-                            }
+                            content = requestData.get(field.getLabel());
                         }
                         break;
                     case DATE:

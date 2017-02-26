@@ -129,7 +129,7 @@
                                         <br>
                                         <div class="form-group">
                                             <div class="col-sm-6">
-                                                <select class="form-control" id="sel1">
+                                                <select class="form-control" id="sel1" name="@field.getLabel">
                                                 @for(option <- field.getOptions.split("\\r?\\n")) {
                                                     <option>@option</option>
                                                 }
@@ -286,10 +286,41 @@
                             console.error("WebSocket error: " + error);
                         };
 
+                        $('#myform').submit(function(event) {
+                            // disable submitting form with submit button
+                            event.preventDefault();
+
+                            console.log('submitting message using ajax');
+
+                            // get form data
+                            var formData = new FormData($('#myform')[0]);
+
+                            console.log(formData);
+                            // create an AJAX-request
+                            $.ajax({
+                                method: 'POST',
+                                url: '@routes.MainController.addResponse()',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (message_text) {
+                                    console.log('message text received from the server: ' + message_text);
+                                    console.log('json text: ' + JSON.stringify(message_text));
+                                    // !!! send information about adding new message to the server throw the web socket
+                                    socket.send(JSON.stringify(message_text));
+                                },
+                                error: function (message_text) {
+                                    console.log('something is wrong...');
+                                    console.log(message_text);
+                                }
+                            });
+                            cleanForm();
+
+                        });
+
                         function addField(fieldFromJson) {
                             var htmlBuffer = [];
                             var field = '';
-                            var fieldId = fieldFromJson.fieldId;
                             var fieldLabel = fieldFromJson.label;
                             var fieldType = fieldFromJson.type;
                             var fieldRequired = fieldFromJson.required;

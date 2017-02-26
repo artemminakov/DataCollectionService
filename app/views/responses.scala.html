@@ -1,4 +1,6 @@
 @(responsesList: List[models.Response], fieldsList: List[models.Field])
+@activeFieldsQuantity = @{fieldsList.length}
+@import scala.Predef; var x = 0
 
     @main("Responses") {
         @helper.form(action = routes.LoginController.logout) {
@@ -21,6 +23,8 @@
                         @for(field <- fieldsList) {
                             @if(field.isActive) {
                                 <th>@field.getLabel</th>
+                            } else {
+                                @(x = x + 1)
                             }
                         }
                         </tr>
@@ -28,10 +32,11 @@
                     <tbody>
                     @for(response <- responsesList) {
                         <tr>
-                        @for(content <- response.getResponseContents) {
-                            @if(content.getContent != null) {
-                                @if(!content.getContent.isEmpty) {
-                                    <td>@content.getContent</td>
+                        @for(i <- 0 until activeFieldsQuantity-x) {
+                            @if(i < response.getResponseContents.size() &&
+                                    response.getResponseContents.get(i).getContent != null) {
+                                @if(!response.getResponseContents.get(i).getContent.isEmpty) {
+                                    <td>@response.getResponseContents.get(i).getContent</td>
                                 } else {
                                     <td>N/A</td>
                                 }
