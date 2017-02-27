@@ -1,14 +1,19 @@
 package models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import play.data.validation.Constraints;
-
-import javax.persistence.*;
 
 @Entity
 public class Field {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int fieldId;
 
     @Column
@@ -99,15 +104,27 @@ public class Field {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Field)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Field)) {
+            return false;
+        }
 
         Field field = (Field) o;
 
-        if (fieldId != field.fieldId) return false;
-        if (isRequired != field.isRequired) return false;
-        if (isActive != field.isActive) return false;
-        if (!label.equals(field.label)) return false;
+        if (fieldId != field.fieldId) {
+            return false;
+        }
+        if (isRequired != field.isRequired) {
+            return false;
+        }
+        if (isActive != field.isActive) {
+            return false;
+        }
+        if (!label.equals(field.label)) {
+            return false;
+        }
         return type == field.type;
 
     }

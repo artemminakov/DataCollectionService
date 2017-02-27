@@ -12,6 +12,7 @@ GET     /                           controllers.MainController.index
 POST    /                           controllers.MainController.addResponse
 GET     /getresponsecontent         controllers.MainController.getResponseContent
 GET     /getresponse                controllers.MainController.getResponseContents
+GET     /createResponseWebSocket    controllers.MainController.createResponseWebSocket
 
 GET     /admin                      controllers.AdminsController.index
 POST    /admin                      controllers.AdminsController.addAdmin

@@ -1,21 +1,24 @@
 package controllers;
 
+import static play.libs.Json.toJson;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
 import models.Field;
 import models.Type;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.LegacyWebSocket;
+import play.mvc.Result;
+import play.mvc.Security;
+import play.mvc.WebSocket;
 import security.Secured;
-
-import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static play.libs.Json.toJson;
 
 public class CreateFieldController extends Controller {
 
@@ -68,8 +71,8 @@ public class CreateFieldController extends Controller {
 
             socketsSet.add(out);
 
-            in.onMessage((String message) -> {
-                socketsSet.forEach(s -> s.write(message));
+            in.onMessage((String field) -> {
+                socketsSet.forEach(s -> s.write(field));
             });
 
             in.onClose(() -> {

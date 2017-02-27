@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
 import models.Admin;
 import play.data.Form;
 import play.data.FormFactory;
@@ -8,11 +12,6 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.loginPage;
-
-import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LoginController extends Controller {
 

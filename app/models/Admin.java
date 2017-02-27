@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Admin{
+public class Admin {
 
     @Id
     private String login;
@@ -51,12 +51,18 @@ public class Admin{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Admin)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Admin)) {
+            return false;
+        }
 
         Admin admin = (Admin) o;
 
-        if (login != null ? !login.equals(admin.login) : admin.login != null) return false;
+        if (login != null ? !login.equals(admin.login) : admin.login != null) {
+            return false;
+        }
         return !(password != null ? !password.equals(admin.password) : admin.password != null);
 
     }

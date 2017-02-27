@@ -1,6 +1,7 @@
 @(responsesList: List[models.Response], fieldsList: List[models.Field])
 @activeFieldsQuantity = @{fieldsList.length}
-@import scala.Predef; var x = 0
+@import play.api.libs.json.Json
+@import scala.Predef; var x = 0;
 
     @main("Responses") {
         @helper.form(action = routes.LoginController.logout) {
@@ -17,7 +18,7 @@
                     <li><a href="@routes.FieldsController.index()">Fields</a></li>
                     <li><a href="@routes.ResponsesController.index()">Responses<span class="badge">2</span></a></li>
                 </ul>
-                <table class="table table-striped">
+                <table class="table table-striped" id="responses_table">
                     <thead>
                         <tr>
                         @for(field <- fieldsList) {
@@ -52,3 +53,81 @@
         </body>
         }
     }
+<script>
+    $(function() {
+        // console.log - just for info. You can delete it.
+
+        <!--  Creating client side for WebSockets connection  -->
+
+        // create URL to connect to the server using WebSockets
+        // ws - WebSockets protocol
+        // window.location.host - the domain name of the web host
+        // routes - action method in controller
+        var serverURL = 'ws://' + window.location.host + '@routes.MainController.createResponseWebSocket().url';
+
+        console.log("Server URL: " + serverURL);
+        var socket;
+
+        // some web-browser versions can have different constructors for web sockets
+        // so we check it with if-else
+        if (window.MozWebSocket) {
+            socket = new MozWebSocket(serverURL);
+        } else if (window.WebSocket) {
+            socket = new WebSocket(serverURL);
+        }
+
+        // set a function that will be invoked when socket is open
+        socket.onopen = function (event) {
+            console.log("socket opened");
+        }
+
+        // set a function that will be invoked when the client receives
+        // a message from the server
+        socket.onmessage = function (event) {
+            console.log("WebSocket message: " + event.data);
+
+            // parse JsonNode with a message sent by the server
+            var responseFromJson = JSON.parse(event.data);
+
+            // make smth with this information
+            // 'text' is one of the properties of our message object
+            if (responseFromJson.hasOwnProperty("responseId")) {
+                // finally add new row to the table
+                addResponseRow(responseFromJson);
+            } else {
+                // if we receive smth that we didn't expect
+                console.error("Unknown message from socket: " + event.data);
+            }
+        };
+
+        // set a function that will be invoked when something is wrong with WebSockets
+        socket.onerror = function (error) {
+            console.error("WebSocket error: " + error);
+        };
+
+        function addResponseRow(responseFromJson) {
+            var htmlBuffer = [];
+            htmlBuffer.push('<tr>');
+            for(var i in responseFromJson){
+                var val = responseFromJson[i];
+                for(var j in val){
+                  var content = val[j];
+                  for(var k in content) {
+                      var sub_key = k;
+                      if (sub_key === "content"){
+                          var sub_val = content[k];
+                          if (sub_val === null){
+                              htmlBuffer.push('<td>N/A</td>');
+                          }else {
+                              htmlBuffer.push('<td>' + sub_val + '</td>');
+                          }
+                      }
+                  }
+                }
+            }
+            htmlBuffer.push('</tr>');
+            console.log(htmlBuffer.join('\n'));
+            $('#responses_table').find('tbody').append(htmlBuffer.join('\n'));
+        };
+    });
+</script>

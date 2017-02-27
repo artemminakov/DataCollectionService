@@ -1,13 +1,18 @@
 package models;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Response {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int responseId;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -46,13 +51,20 @@ public class Response {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Response)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Response)) {
+            return false;
+        }
 
         Response response = (Response) o;
 
-        if (responseId != response.responseId) return false;
-        return !(responseContents != null ? !responseContents.equals(response.responseContents) : response.responseContents != null);
+        if (responseId != response.responseId) {
+            return false;
+        }
+        return !(responseContents != null ? !responseContents.equals(response.responseContents)
+                : response.responseContents != null);
 
     }
 

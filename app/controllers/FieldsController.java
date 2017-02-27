@@ -1,18 +1,20 @@
 package controllers;
 
-import models.Field;
-import play.db.jpa.JPAApi;
-import play.db.jpa.Transactional;
-import play.mvc.*;
-import security.Secured;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import models.Field;
+import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
+import play.mvc.WebSocket;
+import security.Secured;
 
 public class FieldsController extends Controller {
 

@@ -1,5 +1,9 @@
 package controllers;
 
+import static play.libs.Json.toJson;
+
+import java.util.List;
+import javax.inject.Inject;
 import models.Admin;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -9,12 +13,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
-import javax.inject.Inject;
-import java.util.List;
-
-import static play.libs.Json.toJson;
-
 public class AdminsController extends Controller {
+
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
 

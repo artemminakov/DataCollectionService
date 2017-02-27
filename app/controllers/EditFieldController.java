@@ -1,6 +1,11 @@
 package controllers;
 
 
+import java.util.Arrays;
+import java.util.List;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import models.Field;
 import models.Type;
 import play.data.DynamicForm;
@@ -11,12 +16,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.util.Arrays;
-import java.util.List;
 
 public class EditFieldController extends Controller {
 
@@ -59,7 +58,7 @@ public class EditFieldController extends Controller {
                 "isRequired = " + field.isRequired() + ", " +
                 "isActive = " + field.isActive() + ", " +
                 "options = '" + field.getOptions() + "' " +
-                "WHERE fieldId = " + fieldForEdit.getFieldId() +";");
+                "WHERE fieldId = " + fieldForEdit.getFieldId() + ";");
         query.executeUpdate();
         return redirect(routes.FieldsController.index());
     }

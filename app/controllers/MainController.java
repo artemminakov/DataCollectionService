@@ -1,5 +1,12 @@
 package controllers;
 
+import static play.libs.Json.toJson;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
 import models.Field;
 import models.Response;
 import models.ResponseContent;
@@ -8,19 +15,19 @@ import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import play.mvc.LegacyWebSocket;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.WebSocket;
+import play.mvc.WebSocket.Out;
 import security.Secured;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-
-import static play.libs.Json.toJson;
-
 public class MainController extends Controller {
+
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
+
+    private Set<Out<String>> socketsSet = new HashSet<>();
 
     @Inject
     public MainController(FormFactory formFactory, JPAApi jpaApi) {
@@ -86,7 +93,8 @@ public class MainController extends Controller {
         }
         response.setResponseContents(responseContents);
         jpaApi.em().persist(response);
-        return redirect(routes.SuccessController.index());
+        return ok(toJson(response));
+        //return redirect(routes.SuccessController.index());
     }
 
     @Security.Authenticated(Secured.class)
@@ -103,6 +111,22 @@ public class MainController extends Controller {
         Response response = (Response) jpaApi.em()
                 .createQuery("select r from Response r").getSingleResult();
         return ok(toJson(response));
+    }
+
+    public LegacyWebSocket<String> createResponseWebSocket() {
+
+        return WebSocket.whenReady((in, out) -> {
+
+            socketsSet.add(out);
+
+            in.onMessage((String response) -> {
+                socketsSet.forEach(s -> s.write(response));
+            });
+
+            in.onClose(() -> {
+                socketsSet.remove(out);
+            });
+        });
     }
 
 }

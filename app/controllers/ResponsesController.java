@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+import javax.inject.Inject;
 import models.Field;
 import models.Response;
 import play.data.FormFactory;
@@ -10,10 +12,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
-import javax.inject.Inject;
-import java.util.List;
-
 public class ResponsesController extends Controller {
+
     private final FormFactory formFactory;
     private final JPAApi jpaApi;
 

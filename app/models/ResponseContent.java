@@ -1,12 +1,18 @@
 package models;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ResponseContent {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int responseContentId;
 
     @Column
@@ -59,13 +65,21 @@ public class ResponseContent {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ResponseContent)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ResponseContent)) {
+            return false;
+        }
 
         ResponseContent that = (ResponseContent) o;
 
-        if (responseContentId != that.responseContentId) return false;
-        if (content != null ? !content.equals(that.content) : that.content != null) return false;
+        if (responseContentId != that.responseContentId) {
+            return false;
+        }
+        if (content != null ? !content.equals(that.content) : that.content != null) {
+            return false;
+        }
         return !(field != null ? !field.equals(that.field) : that.field != null);
 
     }
