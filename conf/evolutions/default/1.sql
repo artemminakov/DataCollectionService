@@ -33,7 +33,7 @@ INSERT INTO responsecontent(responseContentId, content, field_fieldid)
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
   VALUES(3, 'Male', 3);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
-  VALUES(4, '30.05.1995', 4);
+  VALUES(4, '30 May 1995', 4);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
   VALUES(5, 'Option 2', 5);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
@@ -43,7 +43,7 @@ INSERT INTO responsecontent(responseContentId, content, field_fieldid)
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
   VALUES(8, 'Male', 3);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
-  VALUES(9, '30.05.1996', 4);
+  VALUES(9, '30 May 1996', 4);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)
   VALUES(10, 'Option 3', 5);
 INSERT INTO responsecontent(responseContentId, content, field_fieldid)

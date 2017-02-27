@@ -116,7 +116,7 @@
                       var sub_key = k;
                       if (sub_key === "content"){
                           var sub_val = content[k];
-                          if (sub_val === null){
+                          if (sub_val === null || sub_val === ""){
                               htmlBuffer.push('<td>N/A</td>');
                           }else {
                               htmlBuffer.push('<td>' + sub_val + '</td>');

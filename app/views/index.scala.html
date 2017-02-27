@@ -2,25 +2,9 @@
 
 @main("Data collection service") {
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/bootstrap-slider.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.1/css/bootstrap-slider.min.css">
-    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-    <script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-    <script type="text/javascript">
-        $('#ex1').slider({
-          formatter: function (value) {
-            return 'Current value: ' + value;
-          }
-        });
-
-
-    </script>
-    <script type="text/stylus">
-    #ex1Slider.slider-selection {
-      background: #BABABA ;
-    }
-    </script>
+    <script src="/assets/javascripts/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="/assets/javascripts/bootstrap-datetimepicker.en.js" type="text/javascript"></script>
+    <script src="/assets/javascripts/bootstrap-datetimepicker.css" type="text/css"></script>
   </head>
 
   <body>
@@ -152,7 +136,7 @@
                   <div class="input-group date form_date col-sm-6" data-date=""
                   data-date-format="dd MM yyyy" data-link-field="dtp_input2"
                   data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <input class="form-control" size="16" type="text" name="@field.getLabel" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove">
                                             </span>
                     </span>
@@ -191,39 +175,6 @@
       </form>
     </div>
   </body>
-  <script type="text/javascript">
-      $('.form_datetime').datetimepicker({
-        language: 'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-      });
-      $('.form_date').datetimepicker({
-        language: 'ru',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-      });
-      $('.form_time').datetimepicker({
-        language: 'ru',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 1,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
-      });
-  </script>
   <script>
       $(document).ready(function () {
         $("#resetbutton").click(function () {
@@ -277,7 +228,7 @@
           if (fieldFromJson.hasOwnProperty("responseId")) {
             // finally add new row to the table
             console.log("OK");
-            window.location.replace("http://localhost:9000/success");
+//            window.location.replace("http://localhost:9000/success");
           } else {
             // if we receive smth that we didn't expect
             console.error("Unknown message from socket: " + event.data);
@@ -524,8 +475,42 @@
                 break;
             }
           }
-          $('#extraFields').append(htmlBuffer.join('\n');
+          $('#extraFields').append(htmlBuffer.join('\n'));
         };
       });
   </script>
+  <script type="text/javascript">
+      $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+      });
+      $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+      });
+      $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+      });
+  </script>
+
 }
