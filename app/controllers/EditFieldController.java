@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import models.Field;
+import models.Response;
 import models.Type;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -45,12 +46,18 @@ public class EditFieldController extends Controller {
                 .createQuery("select f from Field f where fieldId = " + fieldId)
                 .getSingleResult();
         List<Type> typesList = Arrays.asList(Type.values());
-        return ok(views.html.editField.render(typesList, fieldForEdit));
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
+        List<Response> responses = (List<Response>) jpaApi.em()
+                .createQuery("select r from Response r").getResultList();
+        return ok(views.html.editField.render(typesList, fieldForEdit,
+                fields.size(), responses.size()));
     }
 
     /**
      * Method for editing field in DB.
      */
+    @Security.Authenticated(Secured.class)
     @Transactional
     public Result editField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();

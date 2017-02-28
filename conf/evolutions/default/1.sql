@@ -5,7 +5,6 @@
 INSERT INTO admin VALUES('Artem', 'qwerty');
 INSERT INTO admin VALUES('Alex', '12345');
 INSERT INTO admin VALUES('Admin', 'admin');
-INSERT INTO admin VALUES('test', 'test');
 
 INSERT INTO field(fieldId, label, type, isRequired, isActive)
   VALUES(1,'Name', 'SINGLELINETEXT', TRUE, TRUE );

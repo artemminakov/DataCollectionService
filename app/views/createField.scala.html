@@ -1,4 +1,4 @@
-@(typesList: List[Type])
+@(typesList: List[Type], fieldsQuantity: Int, responsesQuantity: Int)
 
   @main("Create field") {
     <head>
@@ -66,9 +66,9 @@
       <div class="container">
         <ul class="list-inline">
           <li><a href="@routes.FieldsController.index()">Fields
-            <span class="badge" id="fieldsspan">2</span> </a></li>
+            <span class="badge" id="fieldsspan">@fieldsQuantity</span> </a></li>
           <li><a href="@routes.ResponsesController.index()">Responses
-            <span class="badge">2</span> </a>
+            <span class="badge">@responsesQuantity</span> </a>
           </li>
         </ul>
         <hr>

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
 import models.Field;
+import models.Response;
 import models.Type;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -43,9 +44,15 @@ public class CreateFieldController extends Controller {
      * Method for render createField page.
      */
     @Security.Authenticated(Secured.class)
+    @Transactional
     public Result index() {
         List<Type> typesList = Arrays.asList(Type.values());
-        return ok(views.html.createField.render(typesList));
+        List<Field> fields = (List<Field>) jpaApi.em()
+                .createQuery("select f from Field f").getResultList();
+        List<Response> responses = (List<Response>) jpaApi.em()
+                .createQuery("select r from Response r").getResultList();
+        return ok(views.html.createField.render(typesList, fields.size(),
+                responses.size()));
     }
 
     /**

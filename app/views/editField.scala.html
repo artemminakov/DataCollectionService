@@ -1,4 +1,4 @@
-@(typesList: List[Type], field: models.Field)
+@(typesList: List[Type], field: models.Field, fieldsQuantity: Int, responsesQuantity: Int)
 
 @main("Edit field") {
 
@@ -56,9 +56,10 @@
       </div>
       <div class="container">
         <ul class="list-inline">
-          <li><a href="@routes.FieldsController.index()">Fields</a></li>
+          <li><a href="@routes.FieldsController.index()">Fields
+            <span class="badge">@fieldsQuantity</span></a></li>
           <li><a href="@routes.ResponsesController.index()">Responses
-            <span class="badge">2</span> </a>
+            <span class="badge">@responsesQuantity</span></a>
           </li>
         </ul>
         <hr>

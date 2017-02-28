@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import models.Field;
+import models.Response;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -41,7 +42,9 @@ public class FieldsController extends Controller {
     public Result index() {
         List<Field> fields = (List<Field>) jpaApi.em()
                 .createQuery("select f from Field f").getResultList();
-        return ok(views.html.fields.render(fields));
+        List<Response> responses = (List<Response>) jpaApi.em()
+                .createQuery("select r from Response r").getResultList();
+        return ok(views.html.fields.render(fields, responses.size()));
     }
 
     /**
