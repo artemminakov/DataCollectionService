@@ -4,7 +4,6 @@ import java.util.List;
 import javax.inject.Inject;
 import models.Field;
 import models.Response;
-import play.data.FormFactory;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -12,17 +11,24 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+/**
+ * <tt>ResponsesController</tt> controller class, which has method to show
+ * table with responses which are submitted by users.
+ *
+ * @author Artem Minakov
+ */
 public class ResponsesController extends Controller {
 
-    private final FormFactory formFactory;
     private final JPAApi jpaApi;
 
     @Inject
-    public ResponsesController(FormFactory formFactory, JPAApi jpaApi) {
-        this.formFactory = formFactory;
+    public ResponsesController(JPAApi jpaApi) {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render page with responses.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result index() {

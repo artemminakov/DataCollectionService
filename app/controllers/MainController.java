@@ -22,6 +22,12 @@ import play.mvc.WebSocket;
 import play.mvc.WebSocket.Out;
 import security.Secured;
 
+/**
+ * <tt>MainController</tt> controller class, which has methods for interacting
+ * with page of response(index).
+ *
+ * @author Artem Minakov
+ */
 public class MainController extends Controller {
 
     private final FormFactory formFactory;
@@ -35,6 +41,9 @@ public class MainController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render response page.
+     */
     @Transactional
     public Result index() {
         List<Field> fields = (List<Field>) jpaApi.em()
@@ -42,7 +51,9 @@ public class MainController extends Controller {
         return ok(views.html.index.render(fields, session()));
     }
 
-
+    /**
+     * Method for adding response to DB.
+     */
     @Transactional
     public Result addResponse() {
         List<Field> fields = (List<Field>) jpaApi.em()
@@ -94,9 +105,12 @@ public class MainController extends Controller {
         response.setResponseContents(responseContents);
         jpaApi.em().persist(response);
         return ok(toJson(response));
-        //return redirect(routes.SuccessController.index());
     }
 
+    /**
+     * Method for selecting from DB all responsesContent(entity which store
+     * data of each field from response).
+     */
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getResponseContent() {
@@ -105,14 +119,21 @@ public class MainController extends Controller {
         return ok(toJson(responseContent));
     }
 
+    /**
+     * Method for selecting from DB all responses.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
-    public Result getResponseContents() {
-        Response response = (Response) jpaApi.em()
-                .createQuery("select r from Response r").getSingleResult();
-        return ok(toJson(response));
+    public Result getResponses() {
+        List<Response> responses = (List<Response>) jpaApi.em()
+                .createQuery("select r from Response r").getResultList();
+        return ok(toJson(responses));
     }
 
+    /**
+     * Method for creating WebSocket index->responses. To send asynchronously
+     * response to responses page.
+     */
     public LegacyWebSocket<String> createResponseWebSocket() {
 
         return WebSocket.whenReady((in, out) -> {

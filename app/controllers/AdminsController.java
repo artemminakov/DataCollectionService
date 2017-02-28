@@ -13,6 +13,13 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+
+/**
+ * <tt>AdminsController</tt> controller class, which has methods for interacting
+ * with page for creating admin.
+ *
+ * @author Artem Minakov
+ */
 public class AdminsController extends Controller {
 
     private final FormFactory formFactory;
@@ -24,11 +31,17 @@ public class AdminsController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render page for adding admin to DB.
+     */
     @Security.Authenticated(Secured.class)
     public Result index() {
         return ok(views.html.indexAdmin.render());
     }
 
+    /**
+     * Method for adding admin to DB.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result addAdmin() {
@@ -37,6 +50,9 @@ public class AdminsController extends Controller {
         return redirect(routes.MainController.index());
     }
 
+    /**
+     * Method for selecting from DB all admins.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getAdmins() {

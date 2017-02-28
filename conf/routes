@@ -11,7 +11,7 @@ POST    /logout                     controllers.LoginController.logout
 GET     /                           controllers.MainController.index
 POST    /                           controllers.MainController.addResponse
 GET     /getresponsecontent         controllers.MainController.getResponseContent
-GET     /getresponse                controllers.MainController.getResponseContents
+GET     /getresponses               controllers.MainController.getResponses
 GET     /createResponseWebSocket    controllers.MainController.createResponseWebSocket
 
 GET     /admin                      controllers.AdminsController.index

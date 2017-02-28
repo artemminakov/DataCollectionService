@@ -17,6 +17,12 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 
+/**
+ * <tt>EditFieldController</tt> controller class, which has methods for interacting
+ * with editField page.
+ *
+ * @author Artem Minakov
+ */
 public class EditFieldController extends Controller {
 
     private final FormFactory formFactory;
@@ -29,6 +35,9 @@ public class EditFieldController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render editField page.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result index(String fieldId) {
@@ -39,6 +48,9 @@ public class EditFieldController extends Controller {
         return ok(views.html.editField.render(typesList, fieldForEdit));
     }
 
+    /**
+     * Method for editing field in DB.
+     */
     @Transactional
     public Result editField() {
         Field field = formFactory.form(Field.class).bindFromRequest().get();

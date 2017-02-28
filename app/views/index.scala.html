@@ -176,17 +176,30 @@
     </div>
   </body>
   <script>
+
+      /*Function for clearing filled fields on form.
+       */
+      function cleanForm() {
+        $('input').val('');
+        $('textarea').val('');
+        $("input:checkbox").prop('checked', false);
+        $("input:checkbox").prop('value', true);
+        $('select option:first-child').attr("selected", "selected");
+        $("#extraFields").empty();
+      }
+  </script>
+  <script>
       $(document).ready(function () {
         $("#resetbutton").click(function () {
-          $('input').val('');
-          $('textarea').val('');
-          $("input:checkbox").prop('checked', false);
-          $("input:radio").prop('checked', false);
-          $('select option:first-child').attr("selected", "selected");
+          cleanForm();
         });
       });
   </script>
   <script>
+
+      /* WebSocket for adding response to DB and responses table(on responses
+       * page).
+       */
       $(function () {
         // console.log - just for info. You can delete it.
 
@@ -228,7 +241,7 @@
           if (fieldFromJson.hasOwnProperty("responseId")) {
             // finally add new row to the table
             console.log("OK");
-//            window.location.replace("http://localhost:9000/success");
+            window.location.assign("@routes.SuccessController.index()");
           } else {
             // if we receive smth that we didn't expect
             console.error("Unknown message from socket: " + event.data);
@@ -271,16 +284,10 @@
           cleanForm();
         });
       });
-      function cleanForm() {
-        $('input').val('');
-        $('textarea').val('');
-        $("input:checkbox").prop('checked', false);
-        $("input:checkbox").prop('value', true);
-        $('select option:first-child').attr("selected", "selected");
-        $("#extraFields").empty();
-      }
   </script>
   <script>
+      /* WebSocket for adding field to response page.
+       */
       $(function () {
         // console.log - just for info. You can delete it.
 
@@ -365,6 +372,8 @@
 
         });
 
+        /* Function for adding field to response page
+         */
         function addField(fieldFromJson) {
           var htmlBuffer = [];
           var field = '';
@@ -394,7 +403,8 @@
                   htmlBuffer.push(':');
                 }
                 htmlBuffer.push('</label><br><div class="form-group">');
-                htmlBuffer.push('<textarea class="col-sm-4" rows="5" id="input" name="' + fieldLabel);
+                htmlBuffer.push(
+                    '<textarea class="col-sm-4" rows="5" id="input" name="' + fieldLabel);
                 htmlBuffer.push('"></textarea></div><br><br><br><br><br>');
                 break;
               case "RADIOBUTTON":
@@ -483,7 +493,7 @@
       $('.form_datetime').datetimepicker({
         //language:  'fr',
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
@@ -491,9 +501,9 @@
         showMeridian: 1
       });
       $('.form_date').datetimepicker({
-        language:  'fr',
+        language: 'fr',
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
@@ -501,9 +511,9 @@
         forceParse: 0
       });
       $('.form_time').datetimepicker({
-        language:  'fr',
+        language: 'fr',
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 1,

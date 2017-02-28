@@ -20,6 +20,12 @@ import play.mvc.Security;
 import play.mvc.WebSocket;
 import security.Secured;
 
+/**
+ * <tt>CreateFieldController</tt> controller class, which has methods for interacting
+ * with createField page.
+ *
+ * @author Artem Minakov
+ */
 public class CreateFieldController extends Controller {
 
     private final FormFactory formFactory;
@@ -33,13 +39,18 @@ public class CreateFieldController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render createField page.
+     */
     @Security.Authenticated(Secured.class)
     public Result index() {
         List<Type> typesList = Arrays.asList(Type.values());
         return ok(views.html.createField.render(typesList));
     }
 
-
+    /**
+     * Method for adding field to DB.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result addField() {
@@ -54,9 +65,11 @@ public class CreateFieldController extends Controller {
         }
         jpaApi.em().persist(field);
         return ok(toJson(field));
-        //return redirect(routes.CreateFieldController.getFields());
     }
 
+    /**
+     * Method for selecting from DB all fields.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional(readOnly = true)
     public Result getFields() {
@@ -65,6 +78,10 @@ public class CreateFieldController extends Controller {
         return ok(toJson(fields));
     }
 
+    /**
+     * Method for creating WebSocket createField->fields and index. To send
+     * asynchronously created field to response and fields pages.
+     */
     public LegacyWebSocket<String> createFieldWebSocket() {
 
         return WebSocket.whenReady((in, out) -> {

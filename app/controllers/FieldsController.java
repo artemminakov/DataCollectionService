@@ -16,6 +16,12 @@ import play.mvc.Security;
 import play.mvc.WebSocket;
 import security.Secured;
 
+/**
+ * <tt>FieldsController</tt> controller class, which has methods for interacting
+ * with page which contain all added fields.
+ *
+ * @author Artem Minakov
+ */
 public class FieldsController extends Controller {
 
     private final JPAApi jpaApi;
@@ -27,6 +33,9 @@ public class FieldsController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render fields page.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result index() {
@@ -35,6 +44,9 @@ public class FieldsController extends Controller {
         return ok(views.html.fields.render(fields));
     }
 
+    /**
+     * Method for deleting from DB selected field.
+     */
     @Security.Authenticated(Secured.class)
     @Transactional
     public Result deleteField() {

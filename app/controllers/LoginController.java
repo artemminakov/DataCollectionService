@@ -13,6 +13,12 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.loginPage;
 
+/**
+ * <tt>LoginController</tt> controller class, which has methods to control
+ * admin authentication.
+ *
+ * @author Artem Minakov
+ */
 public class LoginController extends Controller {
 
     private final FormFactory formFactory;
@@ -26,22 +32,35 @@ public class LoginController extends Controller {
         this.jpaApi = jpaApi;
     }
 
+    /**
+     * Method for render login page.
+     */
     public Result login() {
-        return ok(loginPage.render(formFactory.form(Login.class)));
+        return ok(loginPage.render());
     }
 
+    /**
+     * Method for logout.
+     */
     public Result logout() {
         session().clear();
         return redirect(routes.MainController.index());
     }
 
+    /**
+     * Method for authenticate user in system.
+     */
     @Transactional
     public Result authenticate() {
+
+        //add to Map all users which are registered in system
         List<Admin> admins = (List<Admin>) jpaApi.em()
                 .createQuery("select a from Admin a").getResultList();
         admins.stream().forEach(admin ->
                 users.put(admin.getLogin(), admin.getPassword()));
+
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
+
         if (loginForm.hasErrors()) {
             return redirect(routes.LoginController.login());
         } else {
@@ -51,6 +70,11 @@ public class LoginController extends Controller {
         }
     }
 
+    /**
+     * <tt>Login</tt> class for validation admin authenticity.
+     *
+     * @author Artem Minakov
+     */
     public static class Login {
 
         public String login;
@@ -72,11 +96,14 @@ public class LoginController extends Controller {
             this.password = password;
         }
 
+        /**
+         * Method for validating data for login.
+         */
         public String validate() {
             return isValidLogin(login, password) ? null : "Invalid user or password";
         }
 
-        public static boolean isValidLogin(String login, String password) {
+        private static boolean isValidLogin(String login, String password) {
             return (users.containsKey(login) && users.get(login).equals(password));
         }
     }

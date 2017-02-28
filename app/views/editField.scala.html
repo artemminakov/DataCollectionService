@@ -4,13 +4,12 @@
 
   @helper.form(action = routes.EditFieldController.editField()) {
     <script>
+        /*Function for dynamical adding addition fields for RADIOBUTTON, CHECKBOX,
+         * and SLIDER.
+         */
         $(document).ready(function () {
           $("#sel1").click(function () {
             $("#extraFields").empty();
-            $("#comment").remove();
-            $("#minValue").remove();
-            $("#maxValue").remove();
-            $("#step").remove();
             var value = $(this).val();
             switch (value) {
               case "RADIOBUTTON":
